@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   SafeAreaView,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import ChangeAvatar from './ChangeAvatar';
@@ -17,6 +18,7 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import User from '../../User';
 import OtherSetting from './OtherSetting';
+import { useTranslation } from 'react-i18next';
 
 export default function Setting() {
   const [showAvatar, setShowAvatar] = React.useState(false);
@@ -24,20 +26,22 @@ export default function Setting() {
   const [showSmartOTP, setShowSmartOTP] = React.useState(false);
   const [changePassword, setChangePassword] = React.useState(false);
   const [otherSetting, setOtherSetting] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [transferred, setTransferred] = React.useState(0);
+  const { t } = useTranslation();
   const [avatar, setAvatar] = React.useState(
     'https://cdn-icons-png.flaticon.com/512/7108/7108018.png'
   );
   const PersonalData = [
-    { id: 1, title: 'Đổi ảnh đại diện', image: icons.avatar },
-    { id: 2, title: 'Đổi ảnh nền', image: icons.image },
+    { id: 1, title: t('common:changeAvatar'), image: icons.avatar },
+    { id: 2, title: t('common:changeBackground'), image: icons.image },
   ];
   const AdvancedData = [
-    { id: 3, title: 'Smart OTP', image: icons.otp },
-    { id: 4, title: 'Danh bạ chuyển tiền', image: icons.phonebook },
-    { id: 5, title: 'Mẫu thanh toán', image: icons.bill },
-    { id: 6, title: 'Đổi mật khẩu', image: icons.password },
-    { id: 7, title: 'Cài đặt khác', image: icons.setting },
+    { id: 3, title: t('common:smartOTP'), image: icons.otp },
+    { id: 4, title: t('common:phoneBook'), image: icons.phonebook },
+    { id: 5, title: t('common:paymentForm'), image: icons.bill },
+    { id: 6, title: t('common:changePassword'), image: icons.password },
+    { id: 7, title: t('common:otherSetting'), image: icons.setting },
   ];
   const ClickItem = index => {
     if (index === 1) {
@@ -87,7 +91,7 @@ export default function Setting() {
   };
   const closeOtherSetting = () => {
     setOtherSetting(false);
-  }
+  };
   React.useEffect(
     () => {
       loadAvatar();
@@ -101,13 +105,14 @@ export default function Setting() {
       .onSnapshot(doc => {
         setAvatar(doc.data().avatar);
       });
+      setIsLoading(true);
   };
   const InfoView = () => {
     return (
       <View style={styles.title}>
         <TouchableOpacity style={styles.button}>
           <Text style={{ color: 'green', fontWeight: 'bold', paddingLeft: 12 }}>
-            Thoát
+            {t('common:exit')}
           </Text>
           <Image style={styles.image} source={icons.right} />
         </TouchableOpacity>
@@ -125,7 +130,7 @@ export default function Setting() {
             }}
           >
             <Text style={{ color: 'green', fontWeight: 'bold' }}>
-              Kính chào quý khách
+              {t('common:welcome')}
             </Text>
             <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>
               LU DINH LONG
@@ -186,7 +191,7 @@ export default function Setting() {
             padding: 10,
           }}
         >
-          Cá nhân
+          {t('common:personal')}
         </Text>
         <View>
           {PersonalData.map((e, index) => renderItem(e, index))}
@@ -218,7 +223,7 @@ export default function Setting() {
             padding: 10,
           }}
         >
-          Cài đặt nâng cao
+          {t('common:advancedSetting')}
         </Text>
         <View>
           {AdvancedData.map((e, index) => renderItem(e, index))}
@@ -228,11 +233,11 @@ export default function Setting() {
   };
 
   return <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      {isLoading ? <ScrollView showsVerticalScrollIndicator={false}>
         <InfoView />
         <PersonalView />
         <AdvanceSettingView />
-      </ScrollView>
+      </ScrollView> : <ActivityIndicator size="small" color="#0000ff" />}
       {showAvatar && <ChangeAvatar HandleAvatar={handleAvatar} closePopup={closePopupAvatar} />}
       {showBackground && <ChangeBackground setBackground={setShowBackground} closePopup={closePopupBackground} />}
       {changePassword && <ChangePassword close={closeChangePassword} />}

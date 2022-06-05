@@ -10,15 +10,16 @@ import {
 } from 'react-native';
 import React from 'react';
 import { FONTS, icons, SIZES, theme } from '../../constants';
+import { useTranslation } from 'react-i18next';
 export default function ChangePassword({ close }) {
+  const {t} = useTranslation();
   const [username, setUsername] = React.useState('09999999999');
   const [password, setPassword] = React.useState('L123456@');
   const [oldPass, setOldPass] = React.useState('');
   const [newPass, setNewPass] = React.useState('');
   const [againPass, setAgainPass] = React.useState('');
-  const condition = 'Mật khẩu phải thỏa mãn các điều kiện sau:';
-  const text =
-    '- Có độ dài từ 8 đến 20 ký tự\n- Chứa ít nhất 01 ký tự số, 01 ký tự chữ và 01 ký tự đặc biệt\n\n Ví dụ: b&123456;B&123456;&B123456';
+  const condition = t('common:passTitle1');
+  const text = t('common:passTitle2');
 
   const renderHeader = () => {
     return (
@@ -43,7 +44,7 @@ export default function ChangePassword({ close }) {
             ...FONTS.h3,
           }}
         >
-          Đổi mật khẩu
+         {t('common:changePassword')}
         </Text>
         <TouchableOpacity style={{ alignSelf: 'center', marginLeft: 80 }}>
           <Image style={{ height: 25, width: 25 }} source={icons.home} />
@@ -62,7 +63,7 @@ export default function ChangePassword({ close }) {
               borderWidth: 2,
               borderRadius: 20,
             }}
-            placeholder="Nhập mật khẩu cũ"
+            placeholder={t('common:oldPassword')}
           />
         </View>
         <View
@@ -99,7 +100,7 @@ export default function ChangePassword({ close }) {
               borderWidth: 2,
               borderRadius: 20,
             }}
-            placeholder="Nhập mật khẩu mới"
+            placeholder={t('common:newPassword')}
           />
         </View>
         <View style={{ flex: 1 }}>
@@ -110,7 +111,7 @@ export default function ChangePassword({ close }) {
               borderWidth: 2,
               borderRadius: 20,
             }}
-            placeholder="Nhập lại mật khẩu mới"
+            placeholder={t('common:againNewPassword')}
           />
         </View>
         <View style={{ flex: 1 }} />
@@ -136,7 +137,7 @@ export default function ChangePassword({ close }) {
             marginVertical: 15,
           }}
         >
-          Hoàn tất
+         {t('common:complete')}
         </Text>
       </TouchableOpacity>
     );

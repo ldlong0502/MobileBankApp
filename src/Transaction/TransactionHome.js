@@ -13,16 +13,9 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import Searchbar from './SearchBar';
 import { useTranslation } from 'react-i18next';
-const LANGUAGES = [
-  { code: 'vn', label: 'Tiếng Việt' },
-  { code: 'en', label: 'English' },
-];
 
 export default function Transaction() {
-   const { t , i18n } = useTranslation();
-   const setLanguage = code => {
-     return i18n.changeLanguage(code);
-   };
+  const { t } = useTranslation();
   const listDate = [
     {
       date: '3/6/2022',
@@ -55,7 +48,7 @@ export default function Transaction() {
         <Text style={{ flex: 7, fontSize: 18, color: '#FFFFFF', alignSelf: 'center', marginLeft: 80, ...FONTS.h3 }}>
           {t('common:titleTransaction')}
         </Text>
-        <TouchableOpacity onPress={() => setLanguage('vn')} style={{ flex: 1, alignSelf: 'center' }}>
+        <TouchableOpacity  style={{ flex: 1, alignSelf: 'center' }}>
           <Image style={{ height: 25, width: 25 }} source={icons.home} />
         </TouchableOpacity>
       </View>;

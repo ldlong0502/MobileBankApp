@@ -2,8 +2,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as RNLocalize from 'react-native-localize';
-import en from './translations/en';
 import vn from './translations/vn';
+import en from './translations/en';
 const LANGUAGES = {
   vn,
   en,
@@ -18,7 +18,7 @@ const LANGUAGE_DETECTOR = {
         if (err) {
           console.log('Error fetching Languages from asyncstorage ', err);
         } else {
-          console.log('No language is set, choosing English as fallback');
+          console.log('No language is set, choosing Vietnamese as fallback');
         }
         const findBestAvailableLanguage = RNLocalize.findBestAvailableLanguage(
           LANG_CODES

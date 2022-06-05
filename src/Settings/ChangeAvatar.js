@@ -9,13 +9,14 @@ import {
 } from 'react-native';
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
+import { useTranslation } from 'react-i18next';
 const devieceHeight = Dimensions.get('window').height;
 export default function ChangeAvatar({HandleAvatar, closePopup}) {
-
+  const {t} = useTranslation();
   const ChangeAvatarData = [
-    { id: 1, title: 'Từ Camera' },
-    { id: 2, title: 'Từ Thư viện' },
-    { id: 3, title: 'Hủy' },
+    { id: 1, title: t('common:fromCamera') },
+    { id: 2, title: t('common:fromLibrary') },
+    { id: 3, title: t('common:cancel1') },
   ];
   const renderChangeAvatar = (e, index) => {
     return <View key={e.id} style={{ flex: 1 }}>
@@ -82,7 +83,7 @@ export default function ChangeAvatar({HandleAvatar, closePopup}) {
         >
           <View style={{ flex: 1, alignItems: 'center' }}>
             <Text style={{ fontSize: 20, marginTop: 10, fontWeight: 'bold' }}>
-              Chỉnh sửa ảnh đại diện
+              {t('common:editAvatar')}
             </Text>
           </View>
         {ChangeAvatarData.map((e, index) => renderChangeAvatar(e, index))}

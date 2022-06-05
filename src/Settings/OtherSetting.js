@@ -7,16 +7,18 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, { useTransition } from 'react';
 import { COLORS, FONTS, icons, SIZES, theme } from '../../constants';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import ChangeLanguageForm from './ChangeLanguage';
+import { useTranslation } from 'react-i18next';
 export default function OtherSetting({ close }) {
+  const {t} = useTranslation();
   const [showLanguage,setShowLanguage] = React.useState(false);
   const list = [
     {
       id: 1,
-      title: 'Cài đặt ngôn ngữ',
+      title: t('common:languageSetting'),
       icons: icons.language,
     },
   ];
@@ -44,7 +46,7 @@ export default function OtherSetting({ close }) {
             ...FONTS.h3,
           }}
         >
-          Cài đặt
+          {t('common:setting')}
         </Text>
         <TouchableOpacity
           style={{ flex: 1, alignSelf: 'center', alignItems: 'flex-end' }}

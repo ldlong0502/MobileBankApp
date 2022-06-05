@@ -9,16 +9,33 @@ import {
   Image,
 } from 'react-native';
 import React, { useEffect } from 'react';
-import ImagePicker from 'react-native-image-crop-picker';
 import { icons } from '../../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 const devieceHeight = Dimensions.get('window').height;
 export default function ChangeLanguageForm({ HandleAvatar, closePopup }) {
+  const { t, i18n } = useTranslation();
   const [isVn, setIsVn] = React.useState(null);
   const [isEn, setIsEn] = React.useState(null);
+  const [code, setCode] = React.useState(null);
   const ChangeData = [
-    { id: 1, title: 'Tiếng Việt', code: 'vn' },
-    { id: 2, title: 'Tiếng Anh', code: 'en'},
+    { id: 1, title: t('common:vietnamese'), code: 'vn' },
+    { id: 2, title: t('common:english'), code: 'en'},
   ];
+  const setLanguage = _code => {
+    return i18n.changeLanguage(_code);
+  };
+  const getDataLanguage = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user-language');
+      if (value !== null) {
+        setCode(value);
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
   const renderChangeData = (e, index) => {
     return <View key={e.id} style={{ flex: 1 }}>
         <TouchableOpacity onPress={() => changeLanguage(e.id)} style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center'}}>
@@ -35,18 +52,27 @@ export default function ChangeLanguageForm({ HandleAvatar, closePopup }) {
     if (index === 1){
         setIsVn(true);
         setIsEn(false);
+        setLanguage('vn');
     }
     else {
         setIsVn(false);
         setIsEn(true);
         console.log(isEn);
+        setLanguage('en');
     }
     closePopup();
   };
-  useEffect(()=> {
-    setIsEn(false);
-    setIsVn(true);
-  },[isEn,isVn]);
+  useEffect(() =>  {
+    getDataLanguage();
+    if (code === 'vn'){
+      setIsEn(false);
+      setIsVn(true);
+    }
+    else {
+       setIsEn(true);
+       setIsVn(false);
+    }
+  },[code,setIsEn,setIsVn]);
   return (
     <Modal
       animationType={'slide'}
@@ -74,7 +100,7 @@ export default function ChangeLanguageForm({ HandleAvatar, closePopup }) {
         >
           <View style={{ flex: 1, alignItems: 'center' }}>
             <Text style={{ fontSize: 20, marginTop: 10, fontWeight: 'bold' }}>
-              Chọn ngôn ngữ
+              {t('common:chooseLanguage')}
             </Text>
           </View>
           {ChangeData.map((e, index) => renderChangeData(e, index))}

@@ -9,15 +9,19 @@ import {
 } from 'react-native';
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
+import { useTranslation } from 'react-i18next';
+import ImageAvailable from './ImageAvailable';
 const devieceHeight = Dimensions.get('window').height;
 export default function ChangeBackground({ setBackground, closePopup }) {
+  const {t} = useTranslation();
   const ChangeBackgroundData = [
-    { id: 1, title: 'Chụp ảnh' },
-    { id: 2, title: 'Tải lên từ thư viện' },
-    { id: 3, title: 'Ảnh có sẵn' },
-    { id: 4, title: 'Hủy bỏ' },
+    { id: 1, title: t('common:takePhoto') },
+    { id: 2, title: t('common:loadFromLibrary') },
+    { id: 3, title: t('common:imageAvailable') },
+    { id: 4, title: t('common:cancel2') },
   ];
-  const ChangeBackground = index => {
+  const [showImageAvailable, setShowImageAvailable] = React.useState(false);
+  const ChangeBackGround = index => {
     if (index === 1) {
       ImagePicker.openCamera({
         width: 300,
@@ -36,6 +40,8 @@ export default function ChangeBackground({ setBackground, closePopup }) {
         setBackground(_image.path);
         closePopup();
       });
+    } else if (index === 3) {
+      setShowImageAvailable(true);
     } else if (index === 4) {
       console.log(5);
       closePopup();
@@ -43,7 +49,7 @@ export default function ChangeBackground({ setBackground, closePopup }) {
   };
   const renderChangeAvatar = (e, index) => {
     return (
-        <TouchableOpacity key={index} style={{flex: 1, borderBottomWidth: 1, borderColor: 'gray'}} onPress={() => ChangeBackground(e.id)}>
+        <TouchableOpacity key={index} style={{flex: 1, justifyContent: 'center', borderBottomWidth: 1, borderColor: 'gray'}} onPress={() => ChangeBackGround(e.id)}>
           {(e.id === 1 || e.id === 2 || e.id === 3) &&
             <Text  style={{ fontSize: 18, color: 'blue', alignSelf: 'center', padding: 15 }}>
               {e.title}
@@ -55,7 +61,9 @@ export default function ChangeBackground({ setBackground, closePopup }) {
         </TouchableOpacity>
     );
   };
-
+  const CloseImageAvailable = () => {
+    setShowImageAvailable(false);
+  };
   return (
     <Modal
       animationType={'slide'}
@@ -86,6 +94,7 @@ export default function ChangeBackground({ setBackground, closePopup }) {
             )}
         </View>
       </View>
+      {showImageAvailable && <ImageAvailable close={CloseImageAvailable} />}
     </Modal>
   );
 }
