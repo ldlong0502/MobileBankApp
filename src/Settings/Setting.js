@@ -16,7 +16,7 @@ import { COLORS, SIZES, FONTS, icons, images } from '../../constants';
 import SmartOTP from './SmartOTP';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import User from '../../User';
+import Data from '../Data/Data';
 import OtherSetting from './OtherSetting';
 import { useTranslation } from 'react-i18next';
 
@@ -26,12 +26,9 @@ export default function Setting() {
   const [showSmartOTP, setShowSmartOTP] = React.useState(false);
   const [changePassword, setChangePassword] = React.useState(false);
   const [otherSetting, setOtherSetting] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
   const [transferred, setTransferred] = React.useState(0);
   const { t } = useTranslation();
-  const [avatar, setAvatar] = React.useState(
-    'https://cdn-icons-png.flaticon.com/512/7108/7108018.png'
-  );
+  const [avatar, setAvatar] = React.useState(Data.getDataUser.avatar);
   const PersonalData = [
     { id: 1, title: t('common:changeAvatar'), image: icons.avatar },
     { id: 2, title: t('common:changeBackground'), image: icons.image },
@@ -70,7 +67,7 @@ export default function Setting() {
     try {
       await task;
       const url = await storage().ref('/avatar/' + filename).getDownloadURL();
-      await firestore().collection('users').doc(User.getCurrentUser()).update({
+      await firestore().collection('users').doc(Data.getDataUser.id).update({
       avatar: url,
     });
     } catch (e) {
@@ -91,21 +88,6 @@ export default function Setting() {
   };
   const closeOtherSetting = () => {
     setOtherSetting(false);
-  };
-  React.useEffect(
-    () => {
-      loadAvatar();
-    },
-    [avatar]
-  );
-  const loadAvatar = async () => {
-    await firestore()
-      .collection('users')
-      .doc(User.getCurrentUser())
-      .onSnapshot(doc => {
-        setAvatar(doc.data().avatar);
-      });
-      setIsLoading(true);
   };
   const InfoView = () => {
     return (
@@ -133,7 +115,7 @@ export default function Setting() {
               {t('common:welcome')}
             </Text>
             <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>
-              LU DINH LONG
+              {Data.getDataUser.name.toUpperCase()}
             </Text>
           </View>
         </View>
@@ -233,11 +215,11 @@ export default function Setting() {
   };
 
   return <SafeAreaView style={styles.container}>
-      {isLoading ? <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <InfoView />
         <PersonalView />
         <AdvanceSettingView />
-      </ScrollView> : <ActivityIndicator size="small" color="#0000ff" />}
+      </ScrollView>
       {showAvatar && <ChangeAvatar HandleAvatar={handleAvatar} closePopup={closePopupAvatar} />}
       {showBackground && <ChangeBackground setBackground={setShowBackground} closePopup={closePopupBackground} />}
       {changePassword && <ChangePassword close={closeChangePassword} />}

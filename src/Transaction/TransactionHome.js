@@ -13,9 +13,13 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import Searchbar from './SearchBar';
 import { useTranslation } from 'react-i18next';
+import Data from '../Data/Data';
 
 export default function Transaction() {
   const { t } = useTranslation();
+  const formatMoney = value => {
+    return (value.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')).split('.')[0] + ' VNĐ';
+  };
   const listDate = [
     {
       date: '3/6/2022',
@@ -31,15 +35,16 @@ export default function Transaction() {
       time: '17:30',
       purpose: 'Chuyển tiền đến An',
       isIn: false,
-      money: 500000,
+      money: formatMoney(500000),
     },
      {
       time: '10:30',
       purpose: 'Nhận tiền từ Admin',
       isIn: true,
-      money: 70000,
+      money: formatMoney(70000),
     },
   ];
+
   const renderHeader = () => {
     return <View style={{ flex: 1, flexDirection: 'row', marginTop: SIZES.padding - 5 }}>
         <TouchableOpacity style={{ flex: 1, alignSelf: 'center', paddingLeft: 5 }}>
@@ -67,7 +72,7 @@ export default function Transaction() {
         <Text style={{
             ...FONTS.body1,
             color: COLORS.white,
-        }}>5,000,765 VNĐ</Text>
+        }}>{formatMoney(Data.getDataUser.surplus)}</Text>
       </View>;
   };
   const updateSearch = () => {};
@@ -120,7 +125,7 @@ export default function Transaction() {
                           color: item1.isIn ? 'orange' : COLORS.red,
                           ...FONTS.body3,
                         }}>
-                          {item1.isIn ? '+ ' + item1.money + ' VNĐ' : '- ' + item1.money + ' VNĐ'}
+                          {item1.isIn ? '+ ' + item1.money : '- ' + item1.money}
                         </Text>
                        </View>
                        <Image

@@ -8,6 +8,7 @@ const bg3 = require('../assets/images/bg3.jpg');
 const bg4 = require('../assets/images/bg4.jpg');
 const bg5 = require('../assets/images/bg5.jpg');
 const bg6 = require('../assets/images/bg6.jpg');
+
 // Dummy
 const usFlag = require('../assets/images/us-flag.jpg');
 
