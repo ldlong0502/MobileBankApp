@@ -8,12 +8,14 @@ const LANGUAGES = {
   vn,
   en,
 };
+
 const LANG_CODES = Object.keys(LANGUAGES);
 const LANGUAGE_DETECTOR = {
   type: 'languageDetector',
   async: true,
   detect: callback => {
     AsyncStorage.getItem('user-language', (err, language) => {
+      console.log(language + 5);
       if (err || !language) {
         if (err) {
           console.log('Error fetching Languages from asyncstorage ', err);
@@ -23,7 +25,7 @@ const LANGUAGE_DETECTOR = {
         const findBestAvailableLanguage = RNLocalize.findBestAvailableLanguage(
           LANG_CODES
         );
-        callback(findBestAvailableLanguage.languageTag || 'vn');
+        callback(findBestAvailableLanguage.languageTag || 'vn' );
         return;
       }
       callback(language);

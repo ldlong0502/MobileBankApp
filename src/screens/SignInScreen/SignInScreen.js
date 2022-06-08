@@ -6,23 +6,43 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
+  Alert,
 } from 'react-native';
 import Logo from '../../../assets/images/card-service.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import {useNavigation} from '@react-navigation/native';
-
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import Data from '../../Data/Data';
+import { useEffect } from 'react';
 const SignInScreen = () => {
-  const [username, setUsername] = useState('');
+  const [phone, setPhone] = useState();
   const [password, setPassword] = useState('');
 
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
 
+  const checkSignIn = () => {
+    Data.getListUser().forEach(element => {
+      if (element.phone === phone && element.password === password) {
+        Data.getDataUser = element;
+        console.log(Data.getDataUser);
+        return true;
+      }
+    });
+    return false;
+  };
   const onSignInPressed = () => {
-    // validate user
-    navigation.navigate('BottomTabs');
+   console.log(Data.getListUser());
+  if (checkSignIn()) {
+    Alert.alert('SĐT hoặc mật khẩu không hợp lệ');
+    return;
+  }
+  Alert.alert('Đăng nhập thành công!Chào mừng quý khách');
+  navigation.navigate('BottomTabs');
+
   };
 
   const onForgotPasswordPressed = () => {
@@ -32,7 +52,25 @@ const SignInScreen = () => {
   const onSignUpPress = () => {
     navigation.navigate('SignUp');
   };
+  const loadListUser = async () => {
+  Data.getListUser().splice(0,Data.getListUser().length);
+  await firestore().collection('users').get().then(snapshot => {
+    snapshot.forEach(doc => {
+      Data.setListUser({id: doc.id,
+        phone: doc.data().phone,
+        password: doc.data().password,
+        avatar: doc.data().avatar,
+        background: doc.data().background,
+        surplus: doc.data().surplus,
+        name: doc.data().name,
 
+      });
+    });
+  });
+  };
+  useEffect(() => {
+    loadListUser();
+  }, []);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
@@ -44,9 +82,9 @@ const SignInScreen = () => {
         <Text style={styles.title}>BANKING APP</Text>
 
         <CustomInput
-          placeholder="Tên đăng nhập"
-          value={username}
-          setValue={setUsername}
+          placeholder="Số điện thoại"
+          value={phone}
+          setValue={setPhone}
         />
         <CustomInput
           placeholder="Mật khẩu"
@@ -99,7 +137,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 });
 

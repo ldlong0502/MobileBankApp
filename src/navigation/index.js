@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, Image} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -8,7 +8,7 @@ import FastTransition from '../components/transiction/247tran';
 import ConfirmScreen from '../components/transiction/confirm';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import ConfirmEmailScreen from '../screens/ConfirmEmailScreen';
+import ConfirmPhoneScreen from '../screens/ConfirmPhoneScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import NewPasswordScreen from '../screens/NewPasswordScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -17,7 +17,13 @@ import Transaction from '../Transaction/TransactionHome.js';
 import PhonePayment from '../../Extension/Screens/Phonepayment';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {icons} from '../../constants';
+<<<<<<< HEAD
 import {useTranslation} from 'react-i18next';
+=======
+import { useTranslation } from 'react-i18next';
+import Data from '../Data/Data';
+import firestore from '@react-native-firebase/firestore';
+>>>>>>> 71b5b5a86afe77f74bb972f683f6b484e3b8c2e3
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -75,7 +81,7 @@ const Navigation = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
+        <Stack.Screen name="ConfirmPhone" component={ConfirmPhoneScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
         <Stack.Screen
