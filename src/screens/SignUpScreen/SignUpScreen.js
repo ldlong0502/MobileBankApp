@@ -116,7 +116,9 @@ const SignUpScreen = () => {
           secureTextEntry
         />
         {isPasswordRepeat.length > 0 ? <Text style={{color: 'red', alignSelf: 'flex-start'}}>{isPasswordRepeat}</Text> : null}
+
         <CustomButton text={t('common:signUp')} onPress={onRegisterPressed} />
+
 
         <Text style={styles.text}>
           {t('common:ruleSignUp')}{' '}
