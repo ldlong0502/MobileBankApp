@@ -92,46 +92,46 @@ const SignUpScreen = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
-        <Text style={styles.title}>Tạo tài khoản</Text>
+        <Text style={styles.title}>{t('common:signUpPasswordTitle')}</Text>
 
         <CustomInput
-          placeholder="Tên người dùng"
+          placeholder={t('common:username')}
           value={username}
           setValue={setUsername}
         />
         {isUserName.length > 0 ? <Text style={{color: 'red', alignSelf: 'flex-start'}}>{isUserName}</Text> : null}
-        <CustomInput placeholder="Phone" value={phone} setValue={setPhone} />
+        <CustomInput placeholder={t('common:phone')} value={phone} setValue={setPhone} />
         {isPhone.length > 0 ? <Text style={{color: 'red', alignSelf: 'flex-start'}}>{isPhone}</Text> : null}
         <CustomInput
-          placeholder="Nhập mật khẩu"
+          placeholder={t('common:inputPassword')}
           value={password}
           setValue={setPassword}
           secureTextEntry
         />
         { isPassword.length > 0 ? <Text style={{color: 'red', alignSelf: 'flex-start'}} >{isPassword}</Text> : null}
         <CustomInput
-          placeholder="Nhập lại mật khẩu"
+          placeholder={t('common:inputAgainPassword')}
           value={passwordRepeat}
           setValue={setPasswordRepeat}
           secureTextEntry
         />
         {isPasswordRepeat.length > 0 ? <Text style={{color: 'red', alignSelf: 'flex-start'}}>{isPasswordRepeat}</Text> : null}
-        <CustomButton text="Đăng ký" onPress={onRegisterPressed} />
+        <CustomButton text={t('common:signUp')} onPress={onRegisterPressed} />
 
         <Text style={styles.text}>
-          Bằng cách đăng ký, bạn xác nhận rằng bạn chấp nhận{' '}
+          {t('common:ruleSignUp')}{' '}
           <Text style={styles.link} onPress={onTermsOfUsePressed}>
-            Điều khoản sử dụng
+            {t('common:termsOfUse')}
           </Text>{' '}
-          và{' '}
+          {t('common:and')}{' '}
           <Text style={styles.link} onPress={onPrivacyPressed}>
-            Chính sách bảo mật
+            {t('common:privacyPolicy')}
           </Text>
         </Text>
 
 
         <CustomButton
-          text="Đã có tài khoản? Đăng nhập."
+          text={t('common:loginBack')}
           onPress={onSignInPress}
           type="TERTIARY"
         />

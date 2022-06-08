@@ -17,10 +17,11 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Data from '../../Data/Data';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 const SignInScreen = () => {
   const [phone, setPhone] = useState();
   const [password, setPassword] = useState('');
-
+  const {t} = useTranslation();
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
 
@@ -79,30 +80,30 @@ const SignInScreen = () => {
           style={[styles.logo, {height: height * 0.3}]}
           resizeMode="contain"
         />
-        <Text style={styles.title}>BANKING APP</Text>
+        <Text style={styles.title}>{t('common:appName')}</Text>
 
         <CustomInput
-          placeholder="Số điện thoại"
+          placeholder= {t('common:phone')}
           value={phone}
           setValue={setPhone}
         />
         <CustomInput
-          placeholder="Mật khẩu"
+          placeholder={t('common:password')}
           value={password}
           setValue={setPassword}
           secureTextEntry
         />
 
-        <CustomButton text="Đăng nhập" onPress={onSignInPressed} />
+        <CustomButton text={t('common:login')} onPress={onSignInPressed} />
 
         <CustomButton
-          text="Quên mật khẩu?"
+          text={t('common:forgotPassword')}
           onPress={onForgotPasswordPressed}
           type="TERTIARY"
         />
 
         <CustomButton
-          text="Chưa có tài khoản? Đăng ký tài khoản."
+          text={t('common:loginTitlte1')}
           onPress={onSignUpPress}
           type="TERTIARY"
         />

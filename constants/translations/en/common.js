@@ -1,4 +1,5 @@
 export default {
+  appName: 'LLTB',
   //Transaction
   titleTransaction: 'History Transaction',
   surplus: 'Surplus',
@@ -52,4 +53,42 @@ export default {
   //BottomBars
   home: 'Home',
   payment: 'Payment',
+
+  //Home
+  titleHome: 'Welcome to!',
+  recharge: 'Recharge',
+  transfer: 'Transfer',
+  scan: 'Scan QR',
+  wallet: 'Wallet',
+  bill_Payment: 'Bill Payment',
+  internet_Payment: 'Internet Payment',
+  phone_Payment: 'Phone Payment',
+  more: 'More',
+  feature: 'Features',
+
+  //Login
+  phone: 'Phone number',
+  password: 'Your password',
+  login: 'Log in',
+  forgotPassword: 'Forgot password?',
+  loginTitlte1: 'Do not have account? Sign Up',
+
+  //Forgot Pass
+  forgotPasswordTitle: 'Reset your password',
+  send: 'Send',
+  back: 'Back to Sign in',
+
+  // Sign Up
+  signUpPasswordTitle: 'New Account',
+  username: 'UserName',
+  inputPassword: 'Enter Password',
+  inputAgainPassword: 'Enter Again Password',
+  otp: 'Enter OTP',
+  signUp: 'Sign Up',
+  ruleSignUp: 'By registering , you confirm that you accept with',
+  and: 'and',
+  termsOfUse: 'Terms of use',
+  privacyPolicy: 'Privacy Policy',
+  loginBack: 'Have Account? Login',
+
 };

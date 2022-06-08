@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     SafeAreaView,
     View,
@@ -10,63 +11,63 @@ import {
 import { COLORS, SIZES, FONTS, icons, images } from '../../../constants';
 
 const HomeScreen = () => {
-
+const { t } = useTranslation();
     const featuresData = [
         {
             id: 1,
             icon: icons.reload,
             color: COLORS.purple,
             backgroundColor: COLORS.lightpurple,
-            description: 'Nạp tiền',
+            description: t('common:recharge'),
         },
         {
             id: 2,
             icon: icons.send,
             color: COLORS.yellow,
             backgroundColor: COLORS.lightyellow,
-            description: 'Chuyển tiền',
+            description: t('common:transfer'),
         },
         {
             id: 3,
             icon: icons.scan,
             color: COLORS.primary,
             backgroundColor: COLORS.lightGreen,
-            description: 'Scan',
+            description: t('common:scan'),
         },
         {
             id: 4,
             icon: icons.wallet,
             color: COLORS.red,
             backgroundColor: COLORS.lightRed,
-            description: 'Ví',
+            description: t('common:wallet'),
         },
         {
             id: 5,
             icon: icons.bill,
             color: COLORS.yellow,
             backgroundColor: COLORS.lightyellow,
-            description: 'Thanh toán hóa đơn',
+            description: t('common:bill_Payment'),
         },
         {
             id: 6,
             icon: icons.internet,
             color: COLORS.primary,
             backgroundColor: COLORS.lightGreen,
-            description: 'Thanh toán internet',
+            description: t('common:internet_Payment'),
         },
         {
             id: 7,
             icon: icons.phone,
             color: COLORS.red,
             backgroundColor: COLORS.lightRed,
-            description: 'Thanh toán điện thoại',
+            description: t('common:phone_Payment'),
         },
         {
             id: 8,
             icon: icons.more,
             color: COLORS.purple,
             backgroundColor: COLORS.lightpurple,
-            description: 'Thêm',
+            description: t('common:more'),
         },
     ];
 
@@ -104,8 +105,8 @@ const HomeScreen = () => {
         return (
             <View style={{ flexDirection: 'row', marginVertical: SIZES.padding * 2 }}>
                 <View style={{ flex: 1 }}>
-                    <Text style={{ ...FONTS.h1 }}>Chào mừng đến!</Text>
-                    <Text style={{ ...FONTS.body2, color: COLORS.gray }}>BANKING APP</Text>
+                    <Text style={{ ...FONTS.h1 }}>{t('common:titleHome')}</Text>
+                    <Text style={{ ...FONTS.body2, color: COLORS.gray }}>{t('common:appName')}</Text>
                 </View>
 
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -169,7 +170,7 @@ const HomeScreen = () => {
 
         const Header = () => (
             <View style={{ marginBottom: SIZES.padding * 2 }}>
-                <Text style={{ ...FONTS.h3 }}>Tín năng</Text>
+                <Text style={{ ...FONTS.h3 }}>{t('common:feature')}</Text>
             </View>
         );
 

@@ -51,4 +51,41 @@ export default {
   //BottomBars
   home: 'Trang chủ',
   payment: 'Thanh toán',
+
+    //Home
+  titleHome: 'Chào mừng đến!',
+  recharge: 'Nạp tiền',
+  transfer: 'Chuyển tiền',
+  scan: 'Quét mã QR',
+  wallet: 'Ví',
+  bill_Payment: 'Thanh toán hóa đơn',
+  internet_Payment: 'Thanh toán Interner',
+  phone_Payment: 'Thanh toán điện thoại',
+  more: 'Thêm',
+  feature: 'Tính năng',
+
+  //Login
+  phone: 'Số điện thoại',
+  password: 'Mật khẩu',
+  login: 'Đăng nhập',
+  forgotPassword: 'Quên mật khẩu?',
+  loginTitlte1: 'Chưa có tài khoản? Đăng ký',
+
+  //Forgot Pass
+  forgotPasswordTitle: 'Khôi phục mật khẩu',
+  send: 'Gửi',
+  back: 'Trở về Đăng nhập',
+
+  // Sign Up
+  signUpPasswordTitle: 'Tài khoản mới',
+  username: 'Tên người dùng',
+  inputPassword: 'Nhập mật khẩu',
+  inputAgainPassword: 'Nhập lại mật khẩu',
+  otp: 'Nhập OTP',
+  signUp: 'Đăng ký',
+  ruleSignUp: 'Bằng cách đăng ký, bạn xác nhận rằng bạn chấp nhận',
+  and: 'và',
+  termsOfUse: 'Điều khoản sử dụng',
+  privacyPolicy: 'Chính sách bảo mật',
+  loginBack: 'Đã có tài khoản? Đăng nhập',
 };

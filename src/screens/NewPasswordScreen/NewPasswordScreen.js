@@ -4,14 +4,24 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import {useNavigation} from '@react-navigation/native';
-
-const NewPasswordScreen = () => {
+import auth from '@react-native-firebase/auth';
+const NewPasswordScreen = (props) => {
   const [code, setCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
   const navigation = useNavigation();
+  const { verificationId } = props.route.params;
 
-  const onSubmitPressed = () => {
+  const onSubmitPressed = async () => {
+    const credential = auth.PhoneAuthProvider.credential(
+    verificationId,
+    code
+    );
+    try {
+      await auth().signInWithCredential(credential);
+    } catch (error) {
+      console.log(error);
+    }
     navigation.navigate('Home');
   };
 
