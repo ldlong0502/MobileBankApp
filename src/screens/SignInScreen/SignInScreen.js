@@ -25,19 +25,22 @@ const SignInScreen = () => {
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
 
-  const checkSignIn = () => {
+  let checkSignIn = () => {
+    let flag = false;
     Data.getListUser().forEach(element => {
       if (element.phone === phone && element.password === password) {
         Data.getDataUser = element;
         console.log(Data.getDataUser);
-        return true;
+        flag = true;
+        return;
       }
     });
-    return false;
+    return flag;
   };
   const onSignInPressed = () => {
    console.log(Data.getListUser());
-  if (checkSignIn()) {
+   console.log(checkSignIn());
+  if (!checkSignIn()) {
     Alert.alert('SĐT hoặc mật khẩu không hợp lệ');
     return;
   }

@@ -6,12 +6,29 @@ import SocialSignInButtons from '../../components/SocialSignInButtons';
 import {useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import auth  from '@react-native-firebase/auth';
+import Data from '../../Data/Data';
 const ConfirmPhoneScreen = (props) => {
   const [code, setCode] = useState('');
   const [check, setCheck] = useState('');
   const navigation = useNavigation();
   const { user } = props.route.params;
   const { confirm } = props.route.params;
+  const AutoCreateBankID = () => {
+    let bankID = '';
+    let flag = true;
+    while (flag) {
+      for (var  i = 0; i < 10; i++){
+        bankID += (Math.floor(Math.random() * 10 + 1)).toString();
+      }
+      Data.getListUser().forEach(item => {
+      if (item.bankID === bankID) {
+        flag = true;
+      }
+      });
+      flag = false;
+    }
+    return bankID;
+  };
   const onConfirmPressed = async () => {
     try {
       await confirm.confirm(code);
@@ -22,6 +39,7 @@ const ConfirmPhoneScreen = (props) => {
         phone: user.phone,
         surplus: 5000000,
         password: user.password,
+        bankID: AutoCreateBankID(),
       });
       Alert.alert('Đăng ký thành công! Vui lòng đăng nhập lại');
       navigation.navigate('SignIn');
