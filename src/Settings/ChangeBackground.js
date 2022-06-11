@@ -12,7 +12,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { useTranslation } from 'react-i18next';
 import ImageAvailable from './ImageAvailable';
 const devieceHeight = Dimensions.get('window').height;
-export default function ChangeBackground({ setBackground, closePopup }) {
+export default function ChangeBackground({ handleBackground, closePopup }) {
   const {t} = useTranslation();
   const ChangeBackgroundData = [
     { id: 1, title: t('common:takePhoto') },
@@ -28,7 +28,7 @@ export default function ChangeBackground({ setBackground, closePopup }) {
         height: 400,
         cropping: true,
       }).then(_image => {
-        setBackground(_image.path);
+        handleBackground(_image.path);
         closePopup();
       });
     } else if (index === 2) {
@@ -37,7 +37,7 @@ export default function ChangeBackground({ setBackground, closePopup }) {
         height: 400,
         cropping: true,
       }).then(_image => {
-        setBackground(_image.path);
+        handleBackground(_image.path);
         closePopup();
       });
     } else if (index === 3) {

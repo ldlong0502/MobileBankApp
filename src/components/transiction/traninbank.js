@@ -28,7 +28,7 @@ class InBank extends React.Component {
       AmountOfMoney: 0,
     };
     this.loadTargetUser = this.loadTargetUser.bind(this);
-this.MakeaTransaction= this.MakeaTransaction.bind(this);
+    this.MakeaTransaction= this.MakeaTransaction.bind(this);
     this.Debug = this.Debug.bind(this);
   }
   MakeaTransaction() {

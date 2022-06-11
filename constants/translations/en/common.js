@@ -65,6 +65,8 @@ export default {
   phone_Payment: 'Phone Payment',
   more: 'More',
   feature: 'Features',
+  accountInformation: 'Account Information',
+  numAccount: 'Account Num',
 
   //Login
   phone: 'Phone number',

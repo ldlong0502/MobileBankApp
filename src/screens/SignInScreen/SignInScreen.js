@@ -18,13 +18,15 @@ import firestore from '@react-native-firebase/firestore';
 import Data from '../../Data/Data';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useIsFocused } from '@react-navigation/native';
+import { icons } from '../../../constants';
 const SignInScreen = () => {
   const [phone, setPhone] = useState();
   const [password, setPassword] = useState('');
   const {t} = useTranslation();
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
-
+   const isFocused = useIsFocused();
   let checkSignIn = () => {
     let flag = false;
     Data.getListUser().forEach(element => {
@@ -67,23 +69,26 @@ const SignInScreen = () => {
         background: doc.data().background,
         surplus: doc.data().surplus,
         name: doc.data().name,
+        bankID: doc.data().bankID,
 
       });
     });
   });
   };
   useEffect(() => {
+    if (isFocused){
     loadListUser();
-  }, []);
+    }
+    console.log(Data.getListUser());
+  }, [isFocused]);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Image
-          source={Logo}
+          source={icons.logoBank}
           style={[styles.logo, {height: height * 0.3}]}
           resizeMode="contain"
         />
-        <Text style={styles.title}>{t('common:appName')}</Text>
 
         <CustomInput
           placeholder= {t('common:phone')}

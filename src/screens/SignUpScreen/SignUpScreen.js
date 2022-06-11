@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import Data from '../../Data/Data';
-
+import HelpFunction from '../../../HelpFunction';
 
 
 const SignUpScreen = () => {
@@ -24,7 +24,6 @@ const SignUpScreen = () => {
   const [isPasswordRepeat, setIsPasswordRepeat] = useState('');
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const check = '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,20}$';
    // If null, no SMS has been sent
   const [confirm, setConfirm] = useState(null);
 
@@ -57,7 +56,7 @@ const SignUpScreen = () => {
         return;
       }
       else {setISPhone('');}
-      if ( !password.match(check)) {
+      if ( !password.match(HelpFunction.check)) {
         setIsPassword(t('common:passTitle2'));
         return;
       }

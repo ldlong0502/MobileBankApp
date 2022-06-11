@@ -36,6 +36,8 @@ const payment = require('../assets/icons/payment.png');
 const transaction = require('../assets/icons/transaction.png');
 const profile = require('../assets/icons/transparency.png');
 const logoBank = require('../assets/icons/logoBank.png');
+const copy = require('../assets/icons/copy.png');
+const qr = require('../assets/icons/qr.png');
 export default {
   profile,
   avatar,
@@ -75,4 +77,6 @@ export default {
   payment,
   transaction,
   logoBank,
+  copy,
+  qr,
 };

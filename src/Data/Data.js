@@ -2,6 +2,10 @@ export default class Data {
   static dataUser = {};
   static listUser = [];
   static tokenDeviceID = '';
+  static notification = {
+    body: '',
+    title: '',
+    token: '' };
   static getDataUser = () => {
     return this.dataUser;
   };

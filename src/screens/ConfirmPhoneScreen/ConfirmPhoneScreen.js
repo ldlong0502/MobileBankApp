@@ -34,7 +34,7 @@ const ConfirmPhoneScreen = (props) => {
       await confirm.confirm(code);
       await firestore().collection('users').doc(auth().currentUser.uid).set({
         avatar: 'https://cdn-icons.flaticon.com/png/512/4122/premium/4122901.png?token=exp=1654620077~hmac=8f2a1b8edca3c77707dd4e8b2eb54d1c',
-        background: '',
+        background: 'https://firebasestorage.googleapis.com/v0/b/bankapp-4377c.appspot.com/o/background%2Fbg1.jpg?alt=media&token=bf96715f-5073-4761-a410-83c94b052705',
         name: user.name,
         phone: user.phone,
         surplus: 5000000,

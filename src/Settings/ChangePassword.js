@@ -7,10 +7,15 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import { FONTS, icons, SIZES, theme } from '../../constants';
 import { useTranslation } from 'react-i18next';
+import Data from '../Data/Data';
+import HelpFunction from '../../HelpFunction';
+import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 export default function ChangePassword({ close }) {
   const {t} = useTranslation();
   const [username, setUsername] = React.useState('09999999999');
@@ -20,33 +25,63 @@ export default function ChangePassword({ close }) {
   const [againPass, setAgainPass] = React.useState('');
   const condition = t('common:passTitle1');
   const text = t('common:passTitle2');
+  const navigation = useNavigation();
+  const completePress = async () => {
+    if (oldPass !== Data.getDataUser.password) {
+      Alert.alert('Mk cũ sai');
+      return;
+    }
+     if (!newPass.match(HelpFunction.check)) {
+      Alert.alert('Mk mơi không thỏa yêu cầu');
+      return;
+    }
+    if (newPass === oldPass) {
+      Alert.alert('Mk mới trùng mk cũ!!!');
+      return;
+    }
+    if (newPass !== againPass) {
+      Alert.alert('Mk không trùng khớp!!!');
+      return;
+    }
+    await firestore().collection('users').doc(Data.getDataUser.id).update({
+      password: newPass,
+    }).then( () => {
+      Alert.alert('Đổi mk thành công!Log in Again');
+      close();
+      navigation.navigate('SignIn');
+    });
 
+  };
   const renderHeader = () => {
     return (
       <View
         style={{
+          flex: 1,
           flexDirection: 'row',
           marginTop: SIZES.padding - 5,
           paddingHorizontal: SIZES.padding,
           borderBottomWidth: 5,
           borderBottomColor: 'gray',
+          alignItems: 'center',
         }}
       >
-        <TouchableOpacity onPress={close} style={{ marginLeft: 10 }}>
+        <TouchableOpacity onPress={close} style={{ flex: 1, alignItems: 'center' }}>
           <Image style={{ height: 30, width: 30 }} source={icons.back} />
         </TouchableOpacity>
-        <Text
+        <View style={{flex: 10, justifyContent: 'center',
+            alignItems: 'center'}}>
+          <Text
           style={{
             fontSize: 18,
             color: '#000000',
             alignSelf: 'center',
-            marginLeft: 80,
             ...FONTS.h3,
           }}
         >
          {t('common:changePassword')}
         </Text>
-        <TouchableOpacity style={{ alignSelf: 'center', marginLeft: 80 }}>
+        </View>
+        <TouchableOpacity style={{ alignSelf: 'center', flex: 1 }}>
           <Image style={{ height: 25, width: 25 }} source={icons.home} />
         </TouchableOpacity>
       </View>
@@ -64,6 +99,8 @@ export default function ChangePassword({ close }) {
               borderRadius: 20,
             }}
             placeholder={t('common:oldPassword')}
+            value={oldPass}
+            onChangeText={value => setOldPass(value)}
           />
         </View>
         <View
@@ -101,6 +138,8 @@ export default function ChangePassword({ close }) {
               borderRadius: 20,
             }}
             placeholder={t('common:newPassword')}
+            value={newPass}
+            onChangeText={value => setNewPass(value)}
           />
         </View>
         <View style={{ flex: 1 }}>
@@ -112,6 +151,8 @@ export default function ChangePassword({ close }) {
               borderRadius: 20,
             }}
             placeholder={t('common:againNewPassword')}
+            value={againPass}
+            onChangeText={value => setAgainPass(value)}
           />
         </View>
         <View style={{ flex: 1 }} />
@@ -121,6 +162,7 @@ export default function ChangePassword({ close }) {
   const renderButton = () => {
     return (
       <TouchableOpacity
+        onPress={completePress}
         style={{
           flex: 1,
           backgroundColor: theme.COLORS.green,

@@ -17,18 +17,18 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loadOptions } from '@babel/core';
+import Data from '../Data/Data';
 export default function ImageAvailable({ close }) {
   const { t } = useTranslation();
   const [indexBackground, setIndexBackground] = React.useState(1);
   const [listBackground, setListBackground] = React.useState([
-    { id: 1, source: images.bg1 },
-    { id: 2, source: images.bg2 },
-    { id: 3, source: images.bg3 },
-    { id: 4, source: images.bg4 },
-    { id: 5, source: images.bg5 },
-    { id: 6, source: images.bg6 },
+    { id: 1, source: images.bg1 , uri: 'https://firebasestorage.googleapis.com/v0/b/bankapp-4377c.appspot.com/o/background%2Fbg1.jpg?alt=media&token=bf96715f-5073-4761-a410-83c94b052705' },
+    { id: 2, source: images.bg2 , uri: 'https://firebasestorage.googleapis.com/v0/b/bankapp-4377c.appspot.com/o/background%2Fbk2.jpg?alt=media&token=f230f506-304f-43de-a984-991c3816d83b'},
+    { id: 3, source: images.bg3 , uri: 'https://firebasestorage.googleapis.com/v0/b/bankapp-4377c.appspot.com/o/background%2Fbk3.jpg?alt=media&token=3e237dd5-8e2d-4d49-9a15-dbc83f24bbf5'},
+    { id: 4, source: images.bg4 , uri: 'https://firebasestorage.googleapis.com/v0/b/bankapp-4377c.appspot.com/o/background%2Fbk4.jpg?alt=media&token=0df29fcc-e057-4888-bbfb-95493ababeb9'},
+    { id: 5, source: images.bg5 , uri: 'https://firebasestorage.googleapis.com/v0/b/bankapp-4377c.appspot.com/o/background%2Fbk5.jpg?alt=media&token=665e3362-d064-45ec-bf26-eaf4fc6d64cb'},
+    { id: 6, source: images.bg6 , uri: 'https://firebasestorage.googleapis.com/v0/b/bankapp-4377c.appspot.com/o/background%2Fbk6.jpg?alt=media&token=440b9857-e764-4d99-a404-309151d2993b'},
   ]);
-
   const storageIndexBackground = async index => {
     try {
       await AsyncStorage.setItem('indexImageBackground', index);
@@ -96,6 +96,17 @@ export default function ImageAvailable({ close }) {
       getIndexBackground();
     },[indexBackground, listBackground]);
 
+  const saveBackground = async () => {
+    try {
+      await firestore().collection('users').doc(Data.getDataUser.id).update({
+
+      background: listBackground[indexBackground - 1].uri,
+    });
+    } catch (e) {
+      console.error(e);
+    }
+  close();
+  };
   const renderBackground = () => {
     return (
       <View
@@ -195,7 +206,7 @@ export default function ImageAvailable({ close }) {
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <TouchableOpacity
-            onPress={() => close}
+            onPress={() => saveBackground()}
             style={{
               backgroundColor: COLORS.purple,
               width: '40%',

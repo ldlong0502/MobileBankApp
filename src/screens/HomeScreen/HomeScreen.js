@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   LogBox,
+  ImageBackground,
 } from 'react-native';
 import { COLORS, SIZES, FONTS, icons, images } from '../../../constants';
 import { useNavigation } from '@react-navigation/native';
@@ -16,7 +17,9 @@ import Data from '../../Data/Data';
 import NotificationService from '../../../NotificationService';
 import { usesAutoDateAndTime } from 'react-native-localize';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import HelpFunction from '../../../HelpFunction';
+import Clipboard from '@react-native-clipboard/clipboard';
+import { useIsFocused } from '@react-navigation/native';
 const HomeScreen = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -107,6 +110,10 @@ const HomeScreen = () => {
 
   const [features, setFeatures] = React.useState(featuresData);
   const [specialPromos, setSpecialPromos] = React.useState(specialPromoData);
+  const [surplus, SetSurPlus] = React.useState(Data.getDataUser.surplus);
+  const [background, SetBackground] = React.useState(Data.getDataUser.background);
+  const isFocused = useIsFocused();
+
   const getCurrentDate = () => {
      var date = new Date().getDate(); //Current Date
      var month = new Date().getMonth() + 1; //Current Month
@@ -118,6 +125,9 @@ const HomeScreen = () => {
       + ' ' + hours + ':' + min + ':' + sec;
   };
   useEffect(()=>{
+    if (!isFocused){
+      return;
+    }
      firestore().collection('users')
     .where('phone', '==', Data.getDataUser.phone)
     .onSnapshot(querySnapshot => {
@@ -125,10 +135,14 @@ const HomeScreen = () => {
 
       if (change.type === 'added') {
         console.log('New user: ', change.doc.data());
+        SetSurPlus(change.doc.data().surplus);
+        SetBackground(change.doc.data().background);
       }
       if (change.type === 'modified') {
         if (change.doc.data().surplus === Data.getDataUser.surplus) {
+          var temp = Data.getDataUser.id;
           Data.getDataUser = change.doc.data();
+          Data.getDataUser.id = temp;
           return;
         }
         console.log('Modified user: ', change.doc.data());
@@ -153,6 +167,7 @@ const HomeScreen = () => {
         };
         console.log(value);
         NotificationService.sendSingleDeviceNotification(value);
+        SetSurPlus(Data.getDataUser.surplus);
         LogBox.ignoreLogs(['Require cycle:']);
       }
       if (change.type === 'removed') {
@@ -160,27 +175,24 @@ const HomeScreen = () => {
       }
     });
   });
-  },[]);
+  },[isFocused]);
   function renderHeader() {
     return (
-      <View style={{ flexDirection: 'row', marginVertical: SIZES.padding * 2 }}>
+      <View style={{ flexDirection: 'row', marginVertical: '10%', paddingHorizontal: SIZES.padding * 3 }}>
         <View style={{ flex: 1 }}>
-          <Text style={{ ...FONTS.h1 }}>
+          <View style={{flexDirection: 'row'}}>
+                   <Text style={{ ...FONTS.h1, color:'white', }}>
             {t('common:titleHome')}
           </Text>
-          <Text style={{ ...FONTS.body2, color: COLORS.gray }}>
-            {t('common:appName')}
-          </Text>
-        </View>
-
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <TouchableOpacity
             style={{
               height: 40,
               width: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: COLORS.lightGray,
+              marginLeft: '35%',
+              backgroundColor: 'white',
+              borderRadius: 20,
             }}
           >
             <Image
@@ -194,8 +206,8 @@ const HomeScreen = () => {
             <View
               style={{
                 position: 'absolute',
-                top: -5,
-                right: -5,
+                top: 5,
+                right: 5,
                 height: 10,
                 width: 10,
                 backgroundColor: COLORS.red,
@@ -204,34 +216,36 @@ const HomeScreen = () => {
             />
           </TouchableOpacity>
         </View>
+        <View style={{height: 200, width: 250 , alignSelf: 'center'}}/>
+        </View>
       </View>
     );
   }
 
   function renderBanner() {
-    return (
-      <View
-        style={{
-          height: 220,
-          borderRadius: 20,
-        }}
-      >
-        <Image
-          source={images.banner}
-          resizeMode="contain"
-          style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: 20,
-          }}
-        />
-      </View>
-    );
+    console.log(Data.getDataUser.bankID);
+    return <View style={{ height: 220, borderRadius: 20, backgroundColor: '#7CFC00', marginHorizontal: SIZES.padding * 3 }}>
+        <Text style={{ color: 'white', margin: 20, ...FONTS.body4 }}>
+          {t('common:accountInformation')}
+        </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ color: 'white', margin: 20, ...FONTS.body2 }}>
+            {t('common:numAccount')}: {Data.getDataUser.bankID}
+          </Text>
+          <TouchableOpacity onPress={() => Clipboard.setString(Data.getDataUser.bankID)} style={{ alignSelf: 'center', marginLeft: '1%' }}>
+            <Image source={icons.copy} style={{ height: 20, width: 20, tintColor: 'blue'}}  />
+          </TouchableOpacity>
+        </View>
+
+        <Text style={{ color: 'white', margin: 20, ...FONTS.body2 }}>
+          {t('common:surplus')}: {HelpFunction.formatMoney(surplus)}
+        </Text>
+      </View>;
   }
 
   function renderFeatures() {
     const Header = () =>
-      <View style={{ marginBottom: SIZES.padding * 2 }}>
+      <View style={{ marginBottom: SIZES.padding * 2, paddingHorizontal: SIZES.padding * 3 }}>
         <Text style={{ ...FONTS.h3 }}>
           {t('common:feature')}
         </Text>
@@ -240,9 +254,9 @@ const HomeScreen = () => {
     const renderItem = ({ item }) =>
       <TouchableOpacity
         style={{
-          marginBottom: SIZES.padding * 2,
           width: 60,
           alignItems: 'center',
+          marginHorizontal: SIZES.padding * 2,
         }}
         onPress={() => {
           console.log(item.description);
@@ -282,7 +296,7 @@ const HomeScreen = () => {
         columnWrapperStyle={{ justifyContent: 'space-between' }}
         keyExtractor={item => `${item.id}`}
         renderItem={renderItem}
-        style={{ marginTop: SIZES.padding * 2 }}
+        style={{ marginTop: SIZES.padding * 2 , marginBottom: SIZES.padding * 2 }}
       />
     );
   }
@@ -290,8 +304,13 @@ const HomeScreen = () => {
   function renderPromos() {
     const HeaderComponent = () =>
       <View>
+        <ImageBackground
+        resizeMode={'stretch'}
+        style={{height: '80%', flex: 1}}
+        source={{uri: background === '' ? null : background} }>
         {renderHeader()}
         {renderBanner()}
+        </ImageBackground>
         {renderFeatures()}
         {renderPromoHeader()}
       </View>;
@@ -301,6 +320,7 @@ const HomeScreen = () => {
         style={{
           flexDirection: 'row',
           marginBottom: SIZES.padding,
+          marginHorizontal: SIZES.padding * 3,
         }}
       >
         <View style={{ flex: 1 }}>
@@ -316,6 +336,7 @@ const HomeScreen = () => {
         style={{
           marginVertical: SIZES.base,
           width: SIZES.width / 2.5,
+          marginHorizontal: SIZES.padding * 2,
         }}
         onPress={() => console.log(item.title)}
       >
@@ -359,7 +380,6 @@ const HomeScreen = () => {
     return (
       <FlatList
         ListHeaderComponent={HeaderComponent}
-        contentContainerStyle={{ paddingHorizontal: SIZES.padding * 3 }}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
         data={specialPromos}

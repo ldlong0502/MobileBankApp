@@ -63,6 +63,8 @@ export default {
   phone_Payment: 'Thanh toán điện thoại',
   more: 'Thêm',
   feature: 'Tính năng',
+  accountInformation: 'Thông tin tài khoản',
+  numAccount: 'Số tài khoản',
 
   //Login
   phone: 'Số điện thoại',
@@ -88,4 +90,5 @@ export default {
   termsOfUse: 'Điều khoản sử dụng',
   privacyPolicy: 'Chính sách bảo mật',
   loginBack: 'Đã có tài khoản? Đăng nhập',
+
 };

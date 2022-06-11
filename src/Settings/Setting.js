@@ -7,6 +7,7 @@ import {
   Image,
   SafeAreaView,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import ChangeAvatar from './ChangeAvatar';
@@ -19,6 +20,7 @@ import storage from '@react-native-firebase/storage';
 import Data from '../Data/Data';
 import OtherSetting from './OtherSetting';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Setting() {
   const [showAvatar, setShowAvatar] = React.useState(false);
@@ -28,6 +30,7 @@ export default function Setting() {
   const [otherSetting, setOtherSetting] = React.useState(false);
   const [transferred, setTransferred] = React.useState(0);
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const [avatar, setAvatar] = React.useState(Data.getDataUser.avatar);
   const PersonalData = [
     { id: 1, title: t('common:changeAvatar'), image: icons.avatar },
@@ -74,6 +77,26 @@ export default function Setting() {
       console.error(e);
     }
   };
+  const handleBackground = async fileStr => {
+    const filename = String(fileStr).substring(String(fileStr).lastIndexOf('/') + 1);
+    const task = storage().ref('/background/' + filename).putFile(fileStr);
+    setTransferred(0);
+    task.on('state_changed', snapshot => {
+      setTransferred(
+        Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+      );
+    });
+    try {
+      await task;
+      const url = await storage().ref('/background/' + filename).getDownloadURL();
+      console.log(Data.getDataUser.id);
+      await firestore().collection('users').doc(Data.getDataUser.id).update({
+      background: url,
+    });
+    } catch (e) {
+      console.error(e);
+    }
+  };
     const closePopupAvatar = () => {
       setShowAvatar(false);
     };
@@ -92,7 +115,10 @@ export default function Setting() {
   const InfoView = () => {
     return (
       <View style={styles.title}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity onPress={()=> {
+          navigation.navigate('SignIn');
+          Alert.alert('Log out successfully!!!');
+        }} style={styles.button}>
           <Text style={{ color: 'green', fontWeight: 'bold', paddingLeft: 12 }}>
             {t('common:exit')}
           </Text>
@@ -221,7 +247,7 @@ export default function Setting() {
         <AdvanceSettingView />
       </ScrollView>
       {showAvatar && <ChangeAvatar HandleAvatar={handleAvatar} closePopup={closePopupAvatar} />}
-      {showBackground && <ChangeBackground setBackground={setShowBackground} closePopup={closePopupBackground} />}
+      {showBackground && <ChangeBackground handleBackground={handleBackground} closePopup={closePopupBackground} />}
       {changePassword && <ChangePassword close={closeChangePassword} />}
       {showSmartOTP && <SmartOTP close={closeSmartOTP} />}
       {otherSetting && <OtherSetting close={closeOtherSetting} />}
@@ -251,6 +277,7 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     alignItems: 'center',
+    marginLeft: '20%',
   },
   cardContainer: {
     flexDirection: 'column',
