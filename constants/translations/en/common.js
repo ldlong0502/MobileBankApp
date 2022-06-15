@@ -98,6 +98,8 @@ export default {
   title3: 'Choose value',
   title4: 'Phone number',
   title5: 'Buy now',
+  cped: 'Copied',
+  pcc: 'Code:'
   
 
 };

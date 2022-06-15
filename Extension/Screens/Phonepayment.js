@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text,Dimensions,TouchableOpacity,TextInput,Button,ScrollView,Image, Alert} from 'react-native';
+import {View, Text,Dimensions,TouchableOpacity,TextInput,Button,ScrollView,Image, Alert, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import Data from '../../src/Data/Data';
 import firestore from '@react-native-firebase/firestore'
 import NotificationService from "../../NotificationService"
+import Clipboard from '@react-native-clipboard/clipboard';
 const Tab = createMaterialTopTabNavigator();
 
 
@@ -221,6 +222,8 @@ function BuycardScreen(){
     const [value,setvalue] = useState(0);
     const [color,setcolor] = useState({num0:false,num1:false,num2:false,num3:false,num4:false,num5:false,num6:false,num7:false});
 
+    const [card,setcard] = useState("");
+    const [oo,setoo] = useState(-1);
     const [ayda,setayda] = useState(false);
     const [color1,setcolor1] = useState({num0:false,num1:false,num2:false,num3:false,num4:false,num5:false});
     const [isokay,setisokay]=useState(false)
@@ -348,6 +351,7 @@ function BuycardScreen(){
 
        
         NotificationService.sendSingleDeviceNotification({title:'Thanh toán',body:body1, token:Data.getTokenDeviceID})
+        getcard();
         
         
         setisokay(true);
@@ -377,6 +381,52 @@ function BuycardScreen(){
         return  date + '/' + month + '/' + year
          + ' ' + hours + ':' + min + ':' + sec;
      };
+     const getcard=()=>{
+        let x=Math.floor(Math.random() * 10);
+        console.log(x);
+        while(x===oo)
+        {
+            x=Math.floor(Math.random() * 10);
+
+        }
+        let okok;
+        setoo(x)
+        switch(x){
+            case 0:
+                okok= 97798917297;
+                break;
+            case 1:
+                okok= 74980740899;
+                break;
+            case 2:
+                okok= 10628610543;
+                break;
+            case 3:
+                okok= 17761098659;
+                break;
+            case 4:
+                okok= 86417654165;
+                break;
+            case 5:
+                okok= 34927620265;
+                break;
+            case 6:
+                okok= 59931604943;
+                break;
+            case 7:
+                okok=74907068485;
+                break;
+            case 8:
+                okok=34240707722;
+                break;
+            case 9:
+                okok=72801868191;
+                break;
+        }
+
+
+        setcard(okok)
+     }
 
 
 
@@ -487,8 +537,17 @@ function BuycardScreen(){
             </View>
             {
                 isokay &&(<View style={{marginTop:20}}>
-                <Text style={{alignSelf:"center",fontSize:20}}>0827691477412</Text>
-                <Text style={{alignSelf:"center"}}>0827691477412</Text>
+                <Text style={{alignSelf:"center"}}>{t('common:pcc')}</Text>
+                <TouchableOpacity activeOpacity={0.6} 
+                onLongPress={()=>{Clipboard.setString(
+                    card.toString());
+                
+                    ToastAndroid.show(t('common:cped'),ToastAndroid.SHORT)
+                }
+                     }>
+                <Text style={{alignSelf:"center",fontSize:30,color:'red'}}>{card}</Text>
+                </TouchableOpacity>
+                
                 </View>)
 
             }

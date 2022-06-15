@@ -97,4 +97,6 @@ export default {
    title3: 'Chọn mệnh giá',
    title4: 'Nhập số điện thoại',
    title5: 'Mua ngay',
+   cped: 'Đã sao chép',
+   pcc: 'Mã thẻ'
 };
