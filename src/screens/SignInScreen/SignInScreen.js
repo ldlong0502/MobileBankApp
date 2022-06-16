@@ -16,8 +16,8 @@ import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Data from '../../Data/Data';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import {useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 const SignInScreen = () => {
   const [phone, setPhone] = useState();
   const [password, setPassword] = useState('');
@@ -38,15 +38,14 @@ const SignInScreen = () => {
     return flag;
   };
   const onSignInPressed = () => {
-   console.log(Data.getListUser());
-   console.log(checkSignIn());
-  if (!checkSignIn()) {
-    Alert.alert('SĐT hoặc mật khẩu không hợp lệ');
-    return;
-  }
-  Alert.alert('Đăng nhập thành công!Chào mừng quý khách');
-  navigation.navigate('BottomTabs');
-
+    console.log(Data.getListUser());
+    console.log(checkSignIn());
+    if (!checkSignIn()) {
+      Alert.alert('SĐT hoặc mật khẩu không hợp lệ');
+      return;
+    }
+    Alert.alert('Đăng nhập thành công!Chào mừng quý khách');
+    navigation.navigate('BottomTabs');
   };
 
   const onForgotPasswordPressed = () => {
@@ -57,20 +56,25 @@ const SignInScreen = () => {
     navigation.navigate('SignUp');
   };
   const loadListUser = async () => {
-  Data.getListUser().splice(0,Data.getListUser().length);
-  await firestore().collection('users').get().then(snapshot => {
-    snapshot.forEach(doc => {
-      Data.setListUser({id: doc.id,
-        phone: doc.data().phone,
-        password: doc.data().password,
-        avatar: doc.data().avatar,
-        background: doc.data().background,
-        surplus: doc.data().surplus,
-        name: doc.data().name,
-
+    Data.getListUser().splice(0, Data.getListUser().length);
+    await firestore()
+      .collection('users')
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          Data.setListUser({
+            id: doc.id,
+            phone: doc.data().phone,
+            password: doc.data().password,
+            avatar: doc.data().avatar,
+            background: doc.data().background,
+            surplus: doc.data().surplus,      
+            name: doc.data().name,
+            bankID: doc.data().bankID,
+            pin: doc.data().pin,
+          });
+        });
       });
-    });
-  });
   };
   useEffect(() => {
     loadListUser();
@@ -86,7 +90,7 @@ const SignInScreen = () => {
         <Text style={styles.title}>{t('common:appName')}</Text>
 
         <CustomInput
-          placeholder= {t('common:phone')}
+          placeholder={t('common:phone')}
           value={phone}
           setValue={setPhone}
         />
@@ -125,7 +129,7 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     maxHeight: 200,
   },
-    title: {
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#051C60',

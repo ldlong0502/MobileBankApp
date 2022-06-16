@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import Data from '../../Data/Data';
+import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   Text,
@@ -16,186 +18,211 @@ import {COLORS, SIZES, FONTS, icons, images} from '../../../constants';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import firestore from '@react-native-firebase/firestore';
+import {t} from 'i18next';
 class InBank extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {},
-      username: '',
-      receiver: '',
-      BAN: '',
+      day: new Date(),
+      transactionFee:1000,
+      username: Data.getDataUser.name,
+      rcName: '',
+      idrc: '',
+      money: 0,
+      BANS: Data.getDataUser.bankID,
+      BANRC: 0,
       message: '',
-      AmountOfMoney: 0,
+      surplus: Data.getDataUser.surplus,
+      surplusrc: 0,
+      pin: Data.getDataUser.pin,
+      phone: Data.getDataUser.phone,
+      ids:Data.getDataUser.id,
     };
+
     this.loadTargetUser = this.loadTargetUser.bind(this);
-this.MakeaTransaction= this.MakeaTransaction.bind(this);
-    this.Debug = this.Debug.bind(this);
+    this.MakeaTransaction = this.MakeaTransaction.bind(this);
+    this.otp = this.otp.bind(this);
+    this.love = this.love.bind(this);
+    // this.comfirmphone = this.comfirmphone.bind(this);
   }
+  love() {
+    this.loadTargetUser();
+  }
+
+  // comfirmphone = async () => {
+  //   try {
+  //     response = ;
+  //     alert(Json.stringify(response));
+  //   } catch (e) {
+  //     alert(JSON.stringify(e));
+  //   }
+  // };
+
+  otp = async () => {
+    const confirmations = await auth().signInWithPhoneNumber('+84 854 673 021');
+    this.setState({comfirm: confirmations});
+  };
+
   MakeaTransaction() {
     firestore()
       .collection('users')
-      .doc('unJyNhOQtvZPlIkOHjOguTxlAFs1')
+      .doc(this.state.idrc)
       .update({
-         surplus:this.state.currentUser.surplus+this.state.AmountOfMoney
+        surplus: this.state.surplusrc + parseInt(this.state.money),
       })
       .then(() => {
         console.log('User updated!');
       });
   }
-  loadReceiveUser(BAN){
-    firestore()
-    .collection('users')
-    .get()
-    .then(querySnapshot => {
-     
-  
-      querySnapshot.forEach(documentSnapshot => {
-        if(documentSnapshot.BAN ===BAN)
-        {
-          this.setState({receiver:documentSnapshot.name});
-        }
-      });
-    });
-  }
+
   loadTargetUser = async () => {
-    const user = await firestore()
+    await firestore()
       .collection('users')
-      .doc('unJyNhOQtvZPlIkOHjOguTxlAFs1')
-      .get();
-    this.setState({currentUser: user._data});
-    
+      .get()
+      .then(collectionSnapshot => {
+        collectionSnapshot.forEach(documentSnapshot => {
+          if (documentSnapshot._data.bankID === this.state.BANRC) {
+            this.setState({
+              idrc: documentSnapshot.id,
+              rcName: documentSnapshot._data.name,
+              surplusrc: documentSnapshot._data.surplus,
+            });
+          }
+        });
+      });
   };
-  Debug() {
-    console.log(this.state.currentUser);
-  }
+
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.smallContainer}>
-          <View
-            style={{
-              height: 50,
-              width: 50,
-              marginBottom: 5,
-              borderRadius: 20,
-              backgroundColor: 'transparent',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Image
-              source={icons.profile}
-              resizeMode="contain"
-              style={{
-                height: 20,
-                width: 20,
-                tintColor: 'pink',
-              }}
-            />
-          </View>
-          <Text style={styles.textt}>Tài khoản nguồn</Text>
-          <Text style={styles.textt}>1924297498327498</Text>
-          <Text style={styles.textt}> {this.state.username}</Text>
+        <View style={styles.smallContainer1}>
+          <Text style={styles.bigtext}>Chuyển từ</Text>
+
+          <Text style={styles.smtext}>{this.state.username}</Text>
+          <Text style={styles.smtext}> {this.state.BANS}</Text>
+          <Text style={styles.smtext}> {this.state.surplus} VND</Text>
         </View>
-        <View style={styles.biggerContainer}>
-          <Text style={styles.heading}>Chuyển tiền nội bộ</Text>
+        <View style={styles.smallContainer2}>
+          <Text style={styles.bigtext}>Chuyển tới</Text>
           <TextInput
-            value={this.state.BAN}
-            style={styles.textInput}
+            value={this.state.BANRC}
+            style={styles.inputtext}
+            onBlur={this.love}
             onChangeText={e => {
-              this.setState({BAN: e});
+              this.setState({BANRC: e});
             }}
             placeholder="số tài khoản ..."></TextInput>
-          <Text style={styles.heading}>Tên người thụ hưởng </Text>
-          <Text style={styles.textInput}>{this.state.receiver}</Text>
-          <View style={styles.InOT}>
-            <Text style={styles.heading}>Thông tin giao dịch</Text>
-
-            <TextInput
-              style={styles.textInput}
-              onChangeText={e => {
-                this.setState({AmountOfMoney: e});
-              }}
-              value={this.AmountOfMoney}
-              placeholder="số tiền          vnđ"></TextInput>
-            <TextInput
-              onChangeText={e => {
-                this.setState({message: e});
-              }}
-              value={this.message}
-              style={styles.textInput}
-              placeholder="nội dung chuyển tiền"></TextInput>
-          </View>
+          <Text style={styles.smtext}>Tên người thụ hưởng </Text>
+          <Text style={styles.smtext}>{this.state.rcName}</Text>
         </View>
 
-        {/* <TouchableOpacity
+        <View style={styles.smallContainer3}>
+          <Text style={styles.bigtext}>Thông tin giao dịch</Text>
+
+          <TextInput
+            style={styles.inputtext}
+            onChangeText={e => {
+             
+              this.setState({money: e});
+            }}
+            value={this.money}
+            keyboardType = 'numeric'
+            placeholder="Số tiền    ...    vnđ"></TextInput>
+          <TextInput
+            onChangeText={e => {
+              this.setState({message: e});
+            }}
+            value={this.message}
+            style={styles.inputtext}
+            placeholder="Nội dung chuyển tiền"></TextInput>
+        </View>
+        <View style={styles.reallySmallContainer}>
+          <Text style={styles.smtext}>
+            Ngày chuyển : Hôm nay, {this.state.day.getDate()}/
+            {this.state.day.getMonth()}/{this.state.day.getFullYear()}
+          </Text>
+        </View>
+
+        <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('ConfirmScreen')}>
+          onPress={() => {
+            if(parseInt(this.state.money)>this.state.surplus+50000){
+              alert(' số dư  không đủ ');
+              this.setState({money: 0})
+            }else{
+            this.props.navigation.navigate('pin', {package: this.state});}
+          }}>
           <Text
-            style={{color: 'white', textTransform: 'capitalize', fontSize: 16}}>
+            style={{
+              color: 'white',
+              textTransform: 'capitalize',
+              fontSize: 16,
+            }}>
             {' '}
             tiếp tục
           </Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity style={styles.button} onPress={this.MakeaTransaction}>
+          <Text
+            style={{
+              color: 'white',
+              textTransform: 'capitalize',
+              fontSize: 16,
+            }}>
+            {' '}
+            chuyển tiền
+          </Text>
         </TouchableOpacity> */}
-        <TouchableOpacity style={styles.button} onPress={this.loadTargetUser}>
-          <Text
-            style={{color: 'white', textTransform: 'capitalize', fontSize: 16}}>
-            {' '}
-         loadTargetUser
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={this.MakeaTransaction}>
-          <Text
-            style={{color: 'white', textTransform: 'capitalize', fontSize: 16}}>
-            {' '}
-          chuyển tiền
-          </Text>
-        </TouchableOpacity>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
+    marginTop: 0,
     flex: 1,
     backgroundColor: 'white',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  smallContainer: {
-    backgroundColor: '#234F1E',
-    padding: 20,
-    margin: 10,
-    width: '85%',
-    height: '20%',
-    borderRadius: 20,
-  },
-  biggerContainer: {
-    backgroundColor: '#234F1E',
-    padding: 20,
-    margin: 20,
-    width: '85%',
-    height: '43%',
-    borderRadius: 20,
-  },
-  heading: {
-    alignSelf: 'flex-start',
-    margin: 5,
-    color: 'white',
-    fontSize: 16,
-  },
-
-  textInput: {
-    padding: 5,
-    margin: 5,
+  smallContainer1: {
     backgroundColor: 'white',
-    width: '90%',
-    borderRadius: 10,
-    fontSize: 12,
+    padding: 10,
+
+    margin: 6,
+    width: '100%',
+    height: '18%',
+    borderRadius: 20,
+  },
+  smallContainer2: {
+    backgroundColor: 'white',
+    padding: 10,
+    margin: 6,
+    width: '100%',
+    height: '23%',
+    borderRadius: 20,
+  },
+  smallContainer3: {
+    backgroundColor: 'white',
+    padding: 10,
+    margin: 6,
+    width: '100%',
+    height: '26%',
+    borderRadius: 20,
+  },
+  reallySmallContainer: {
+    backgroundColor: 'white',
+
+    marginBottom: 5,
+    width: '100%',
+    height: '6%',
+    borderRadius: 20,
   },
   button: {
     display: 'flex',
-    margin: 0,
-    backgroundColor: '#74B340',
+    margin: 4,
+    backgroundColor: '#A54175',
     height: 50,
     width: '80%',
     padding: 10,
@@ -203,20 +230,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 15,
   },
-  InOT: {
-    display: 'flex',
 
-    padding: 0,
-    width: '100%',
-    backgroundColor: 'transparent',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+  smtext: {
+    color: '#000000',
+    marginLeft: 30,
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: '600',
   },
-  textt: {
-    color: 'white',
-    fontSize: 18,
+  bigtext: {
+    color: '#A54175',
+    fontSize: 20,
     fontWeight: '400',
-    fontFamily: 'Arial',
+    margin: 2,
+  },
+  inputtext: {
+    marginLeft: 15,
+    marginBottom: 10,
+    color: '#A54175',
+    fontSize: 15,
+    width: '90%',
+    fontWeight: '400',
+    borderBottomWidth: 1,
   },
 });
 

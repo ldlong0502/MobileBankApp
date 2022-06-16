@@ -246,7 +246,7 @@ const HomeScreen = () => {
         }}
         onPress={() => {
           console.log(item.description);
-          navigation.navigate('tai');
+          navigation.navigate(item.description);
         }}
       >
         <View

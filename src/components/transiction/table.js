@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import TakenList from '../transiction/takenlist';
+
 class Table extends Component {
   render() {
     return (
@@ -26,15 +26,15 @@ class Table extends Component {
             <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('FastTransition')} >
               <Text style={styles.text}>Chuyển khoản liên ngân hàng</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.text}>Chuyển tiền mã QR</Text>
+            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Scan')}>
+              <Text style={styles.text}>Thanh toán bằng mã QR</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.text}>something</Text>
+              <Text style={styles.text}>Khác ...</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <TakenList />
+        {/* <TakenList /> */}
       </View>
     );
   }
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   button: {
     display: 'flex',
     margin: 10,
-    backgroundColor: '#234F1E',
+    backgroundColor: '#A54175',
     height: 100,
     width: 100,
     padding: 10,

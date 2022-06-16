@@ -16,9 +16,11 @@ import SettingsScreen from '../Settings/Setting';
 import Transaction from '../Transaction/TransactionHome.js';
 import PhonePayment from '../../Extension/Screens/Phonepayment';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Scan from '../components/transiction/qrcode';
 import {icons} from '../../constants';
 import { useTranslation } from 'react-i18next';
 import Data from '../Data/Data';
+import Pinui from '../components/transiction/pinui';
 import firestore from '@react-native-firebase/firestore';
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +55,7 @@ function MyTabs() {
           tabBarIcon: () => (
             <Image source={icons.transaction} style={{height: 30, width: 30}} />
           ),
-          title: t('common:transaction'),
+          title: t('common:transfer'),
         }}
       />
       <Tab.Screen
@@ -74,23 +76,48 @@ const Stack = createNativeStackNavigator();
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="ConfirmPhone" component={ConfirmPhoneScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-        <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
+      <Stack.Navigator >
+        <Stack.Screen  screenOptions={{headerShown:false}} name="SignIn" component={SignInScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="SignUp" component={SignUpScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="ConfirmPhone" component={ConfirmPhoneScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="NewPassword" component={NewPasswordScreen} />
         <Stack.Screen
-          name="tai"
-          options={{title: 'VCB digital'}}
+          name="transfer"
+          options={{
+            title: 'Chuyển tiền',
+            headerStyle: {
+              backgroundColor: '#A54175',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
           component={Table}
         />
         <Stack.Screen
+          name="Scan"
+          
+          options={{
+            title: 'Scan',
+            headerStyle: {
+              backgroundColor: '#A54175',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+          component={Scan}
+        />
+        <Stack.Screen
+        screenOptions={{headerShown:true}}
           name="InBank"
           options={{
             title: 'Chuyển tiền trong VCB',
             headerStyle: {
-              backgroundColor: '#72B33F',
+              backgroundColor: '#A54175',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -99,12 +126,27 @@ const Navigation = () => {
           }}
           component={InBank}
         />
+         <Stack.Screen
+        screenOptions={{headerShown:true}}
+          name="pin"
+          options={{
+            title: 'Pin Confirm',
+            headerStyle: {
+              backgroundColor: '#A54175',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+          component={Pinui}
+        />
         <Stack.Screen
           name="FastTransition"
           options={{
             title: 'Chuyển tiền nhanh 24/7 ngoài VCB',
             headerStyle: {
-              backgroundColor: '#72B33F',
+              backgroundColor: '#A54175',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -118,7 +160,7 @@ const Navigation = () => {
           options={{
             title: 'Xác nhận thông tin',
             headerStyle: {
-              backgroundColor: '#72B33F',
+              backgroundColor: '#A54175',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -127,8 +169,8 @@ const Navigation = () => {
           }}
           component={ConfirmScreen}
         />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="BottomTabs" component={MyTabs} />
+        <Stack.Screen  screenOptions={{headerShown:false}}name="Home" component={HomeScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="BottomTabs" component={MyTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
