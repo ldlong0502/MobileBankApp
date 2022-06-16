@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import notifee, { AndroidStyle } from '@notifee/react-native';
 import Data from './src/Data/Data';
 import { icons } from './constants';
+import Chart from './src/Transaction/Chart';
 const App = () => {
    useEffect(() => {
     // Get the device token
@@ -45,11 +46,9 @@ const App = () => {
        },
      });
    }
-  return (
-    <SafeAreaView style={styles.root}>
-      <Navigation />
-    </SafeAreaView>
-  );
+  return <SafeAreaView style={styles.root}>
+        <Navigation />
+    </SafeAreaView>;
 };
 
 const styles = StyleSheet.create({

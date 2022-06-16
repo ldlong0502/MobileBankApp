@@ -114,16 +114,6 @@ const HomeScreen = () => {
   const [background, SetBackground] = React.useState(Data.getDataUser.background);
   const isFocused = useIsFocused();
 
-  const getCurrentDate = () => {
-     var date = new Date().getDate(); //Current Date
-     var month = new Date().getMonth() + 1; //Current Month
-     var year = new Date().getFullYear(); //Current Year
-     var hours = new Date().getHours(); //Current Hours
-     var min = new Date().getMinutes(); //Current Minutes
-     var sec = new Date().getSeconds();
-     return  date + '/' + month + '/' + year
-      + ' ' + hours + ':' + min + ':' + sec;
-  };
   useEffect(()=>{
     if (!isFocused){
       return;
@@ -150,13 +140,13 @@ const HomeScreen = () => {
         if (change.doc.data().surplus > Data.getDataUser.surplus){
           body = 'Tài khoản' + Data.getDataUser.bankID + ' tại LLTB +' +
           (change.doc.data().surplus -  Data.getDataUser.surplus) +
-          ' VNĐ vào lúc ' + getCurrentDate() +
+          ' VNĐ vào lúc ' + HelpFunction.getCurrentDate() +
           '. Số dư: ' + change.doc.data().surplus + ' VNĐ';
         }
         else {
           body = 'Tài khoản' + Data.getDataUser.bankID + ' tại LLTB -' +
           (change.doc.data().surplus -  Data.getDataUser.surplus) +
-          ' VNĐ vào lúc ' + getCurrentDate() +
+          ' VNĐ vào lúc ' + HelpFunction.getCurrentDate() +
           '. Số dư: ' + change.doc.data().surplus + ' VNĐ';
         }
         Data.getDataUser.surplus = change.doc.data().surplus;
@@ -175,16 +165,18 @@ const HomeScreen = () => {
       }
     });
   });
+  HelpFunction.getListTransaction();
   },[isFocused]);
   function renderHeader() {
     return (
       <View style={{ flexDirection: 'row', marginVertical: '10%', paddingHorizontal: SIZES.padding * 3 }}>
         <View style={{ flex: 1 }}>
           <View style={{flexDirection: 'row'}}>
-                   <Text style={{ ...FONTS.h1, color:'white', }}>
+                   <Text style={{ ...FONTS.h1, color:'white' }}>
             {t('common:titleHome')}
           </Text>
           <TouchableOpacity
+          onPress={()=> navigation.navigate('Transaction')}
             style={{
               height: 40,
               width: 40,
@@ -225,14 +217,18 @@ const HomeScreen = () => {
   function renderBanner() {
     console.log(Data.getDataUser.bankID);
     return <View style={{ height: 220, borderRadius: 20, backgroundColor: '#7CFC00', marginHorizontal: SIZES.padding * 3 }}>
-        <Text style={{ color: 'white', margin: 20, ...FONTS.body4 }}>
-          {t('common:accountInformation')}
-        </Text>
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ color: 'white', margin: 20, ...FONTS.body2 }}>
+          {t('common:accountInformation')}
+          </Text>
+          <View style={{flex:1}} />
+          <Image style={{height: 40, width: 40, marginTop: 5, marginRight: '10%', alignSelf: 'center'}} source={icons.threecircle} />
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ color: 'white', margin: 15, ...FONTS.body2 }}>
             {t('common:numAccount')}: {Data.getDataUser.bankID}
           </Text>
-          <TouchableOpacity onPress={() => Clipboard.setString(Data.getDataUser.bankID)} style={{ alignSelf: 'center', marginLeft: '1%' }}>
+          <TouchableOpacity onPress={() => Clipboard.setString(Data.getDataUser.bankID)} style={{ alignSelf: 'center' }}>
             <Image source={icons.copy} style={{ height: 20, width: 20, tintColor: 'blue'}}  />
           </TouchableOpacity>
         </View>

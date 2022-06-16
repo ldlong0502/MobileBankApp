@@ -6,6 +6,7 @@ export default class Data {
     body: '',
     title: '',
     token: '' };
+  static listTransactionHistory = [];
   static getDataUser = () => {
     return this.dataUser;
   };
@@ -17,6 +18,12 @@ export default class Data {
   }
   static getListUser = () => {
     return this.listUser;
+  };
+  static setTransactionHistory = (value) => {
+      this.listTransactionHistory.push(value);
+  }
+  static getTransactionHistory = () => {
+    return this.listTransactionHistory;
   };
 }
 

@@ -7,8 +7,9 @@ import {
   Image,
   SafeAreaView,
   KeyboardAvoidingView,
+  TouchableHighlight,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { COLORS, SIZES, FONTS, icons, images } from '../../constants';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
@@ -17,99 +18,244 @@ import { useTranslation } from 'react-i18next';
 import Data from '../Data/Data';
 import HelpFunction from '../../HelpFunction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Chart from './Chart';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 export default function Transaction() {
   const { t } = useTranslation();
-  const listDate = [
-    {
-      date: '3/6/2022',
-      id: 1,
-    },
-    {
-      date: '2/6/2022',
-      id: 2,
-    },
-  ];
-  const listData = [
-    {
-      time: '17:30',
-      purpose: 'Chuyển tiền đến An',
-      isIn: false,
-      money: HelpFunction.formatMoney(500000),
-    },
-     {
-      time: '10:30',
-      purpose: 'Nhận tiền từ Admin',
-      isIn: true,
-      money: HelpFunction.formatMoney(70000),
-    },
-  ];
-
+  const isFocused = useIsFocused();
+  const [isAdd, setIsAdd] = useState(true);
+  const [listDate, setListDate] = useState([]);
+  const [listData, setListData] = useState([]);
   const renderHeader = () => {
-    return <View style={{ flex: 1,backgroundColor: 'white',paddingVertical: 10 ,flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderBottomColor: 'gray', borderBottomWidth: 5}}>
-        <Text style={{ fontSize: 18, color: '#000000', alignSelf: 'center', ...FONTS.h3 }}>
+    return (
+      <View
+        style={{
+          flex: 2,
+          backgroundColor: 'white',
+          paddingVertical: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderBottomColor: 'gray',
+          borderBottomWidth: 5,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 18,
+            color: '#000000',
+            alignSelf: 'center',
+            ...FONTS.h3,
+          }}
+        >
           {t('common:titleTransaction')}
         </Text>
-      </View>;
+      </View>
+    );
   };
-  const updateSearch = () => {};
-  const renderTransaction = () => {
-     const now = new Date(Date.now()).getDate()
-                + '/'
-                + ( new Date(Date.now()).getMonth() + 1)
-                + '/'
-                + new Date(Date.now()).getFullYear();
-    console.log(now);
-    return <View style={{ flex: 30, marginTop: 20, borderTopLeftRadius: 40, borderTopRightRadius: 40, borderWidth: 2, backgroundColor: '#FFFFFF', borderColor: COLORS.transparent }}>
-        <View style={{ flex: 1, flexDirection: 'row', padding: 20 }}>
-          <Text style={{ flex: 1, ...FONTS.h4, color: COLORS.purple }}>
+  const renderButton = () => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          height: 50,
+          backgroundColor: '#F0FFF0',
+          margin: 20,
+          padding: 5,
+          borderRadius: 100,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => setIsAdd(!isAdd)}
+          style={{
+            flex: 1,
+            alignSelf: 'center',
+            height: '80%',
+            marginLeft: '5%',
+            borderRadius: 100,
+            backgroundColor: isAdd ? '#DCDCDC' : null,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text
+            style={{
+              ...FONTS.body4,
+              color: isAdd ? COLORS.purple : COLORS.black,
+              fontWeight: 'bold',
+            }}
+          >
+            EARNED
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setIsAdd(!isAdd)}
+          style={{
+            flex: 1,
+            alignSelf: 'center',
+            height: '80%',
+            marginRight: '5%',
+            borderRadius: 10,
+            backgroundColor: !isAdd ? '#DCDCDC' : null,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text
+            style={{
+              ...FONTS.body4,
+              color: !isAdd ? COLORS.purple : COLORS.black,
+              fontWeight: 'bold',
+            }}
+          >
+            SPENT
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  const renderStatistic = () => {
+    return <Chart isAdd={isAdd} />;
+  };
+
+  const RenderTransaction = () => {
+    const now =
+      String(new Date().getDate()).padStart(2,'0') +
+      '/' +
+      String((new Date().getMonth() + 1)).padStart(2,'0') +
+      '/' +
+      new Date().getFullYear();
+    return (
+      <View
+        style={{
+          flex: 30,
+          marginTop: 20,
+          borderTopLeftRadius: 40,
+          borderTopRightRadius: 40,
+          borderWidth: 2,
+          backgroundColor: '#FFFFFF',
+          borderColor: COLORS.transparent,
+        }}
+      >
+        <View style={{ height: '15%', padding: 8 }}>
+          <Text style={{ ...FONTS.h4, color: COLORS.purple, marginLeft: 10 }}>
             {t('common:transaction')}
           </Text>
         </View>
-        <KeyboardAvoidingView>
-          <Searchbar updateSearch={updateSearch} />
-        </KeyboardAvoidingView>
-
         <View style={{ flex: 17 }}>
-
-            <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={true}>
-              {listDate.map((item, index) => {
-                return <View key={index} style={{ padding: 10, flexDirection: 'column' }}>
-                    <Text style={{ ...FONTS.body4 }}>
-                      {item.date === now ? t('common:today') : item.date}
-                    </Text>
-                    <View style={{ margin: 10, flexDirection: 'column' }}>
-                      {listData.map((item1, index1) => {
-                        return <TouchableOpacity key={index1} style={{ flexDirection: 'row', backgroundColor: '#CCFFFF', marginTop: 10, borderRadius: 40, padding: 20 }}>
+          <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={true}>
+            {listDate.map((item, index) => {
+              return (
+                <View
+                  key={index}
+                  style={{ padding: 10, flexDirection: 'column' }}
+                >
+                  <Text style={{ ...FONTS.body4 }}>
+                    {item === now ? t('common:today') : item}
+                  </Text>
+                  <View style={{ margin: 10, flexDirection: 'column' }}>
+                    {listData.map((item1, index1) => { return (
+                      item1.date === item
+                        ? <TouchableOpacity
+                            key={index1}
+                            style={{
+                              flexDirection: 'row',
+                              backgroundColor: '#CCFFFF',
+                              marginTop: 10,
+                              borderRadius: 40,
+                              padding: 20,
+                            }}
+                          >
                             <View style={{ flexDirection: 'column', flex: 1 }}>
                               <Text style={{ color: '#330066', ...FONTS.h2 }}>
-                                {item1.purpose}
+                                {item1.title}
                               </Text>
                               <Text>
                                 {item1.time}
                               </Text>
-                              <Text style={{ color: item1.isIn ? 'orange' : COLORS.red, ...FONTS.body3 }}>
-                                {item1.isIn ? '+ ' + item1.money : '- ' + item1.money}
+                              <Text
+                                style={{
+                                  color: item1.isAdd ? 'orange' : COLORS.red,
+                                  ...FONTS.body3,
+                                }}
+                              >
+                                {item1.isAdd
+                                  ? '+ ' + HelpFunction.formatMoney(item1.money)
+                                  : '- ' + HelpFunction.formatMoney(item1.money)}
                               </Text>
                             </View>
-                            <Image style={{ height: 30, width: 30, alignSelf: 'center' }} source={item1.isIn ? icons.loss : icons.profits} />
-                          </TouchableOpacity>;
-                      })}
-                    </View>
-                  </View>;
-              })}
-            </ScrollView>
+                            <Image
+                              style={{
+                                height: 30,
+                                width: 30,
+                                alignSelf: 'center',
+                              }}
+                              source={item1.Add ? icons.loss : icons.profits}
+                            />
+                          </TouchableOpacity>
+                        : null);
+                    })}
+                  </View>
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
-      </View>;
+      </View>
+    );
   };
+  useEffect(() => {
+    if (isFocused){
+    console.log(Data.getTransactionHistory().length);
+    let date = [];
+    Data.getTransactionHistory().forEach(element => {
+      if (!date.includes(element.time.split(' ')[0])) {
+        date.push(element.time.split(' ')[0]);
+      }
+    });
+    date.sort((a, b) => {
+      if (a < b) {
+        return 1;
+      } else if (a === b) {
+        return 0;
+      } else {
+        return -1;
+      }
+    });
+    console.log(date);
+    setListDate(date);
 
-  return <View style={styles.container}>
+    let data = [];
+    Data.getTransactionHistory().forEach(element => {
+      data.push({
+        date: element.time.split(' ')[0],
+        time: element.time.split(' ')[1],
+        title: element.title,
+        isAdd: element.isAdd,
+        money: element.money,
+      });
+    });
+    data.sort((a, b) => {
+      if (a.time < b.time) {
+        return 1;
+      } else if (a.time === b.time) {
+        return 0;
+      } else {
+        return -1;
+      }
+    });
+    console.log(data);
+    setListData(data);
+  }
+  }, [isFocused]);
+  return (
+    <View style={styles.container}>
       {renderHeader()}
-      {renderTransaction()}
-    </View>;
-
-
-
-
+      {renderButton()}
+      {renderStatistic()}
+      {RenderTransaction()}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

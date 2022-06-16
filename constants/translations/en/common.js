@@ -65,6 +65,8 @@ export default {
   phone_Payment: 'Phone Payment',
   more: 'More',
   feature: 'Features',
+  accountInformation: 'INFORMATION',
+  numAccount: 'Account Number',
 
   //Login
   phone: 'Phone number',
@@ -89,17 +91,16 @@ export default {
   and: 'and',
   termsOfUse: 'Terms of use',
   privacyPolicy: 'Privacy Policy',
-  loginBack: 'Have Account? Login',
+  loginBack: 'Have Account? Login', 
 
   // Phone payment
-  
+
   title1: 'PREPAYMENT',
   title2: 'BUY CARD',
   title3: 'Choose value',
   title4: 'Phone number',
   title5: 'Buy now',
   cped: 'Copied',
-  pcc: 'Code:'
-  
+  pcc: 'Code:',
 
 };

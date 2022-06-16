@@ -20,15 +20,18 @@ import {icons} from '../../constants';
 import { useTranslation } from 'react-i18next';
 import Data from '../Data/Data';
 import firestore from '@react-native-firebase/firestore';
-const Tab = createBottomTabNavigator();
+import HelpFunction from '../../HelpFunction';
+const Tab = createBottomTabNavigator(
+
+);
 
 function MyTabs() {
   const {t} = useTranslation();
-  return <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Image source={icons.home} style={{ height: 30, width: 30 }} />, title: t("common:home") }} />
-        <Tab.Screen name="Payment" component={PhonePayment} options={{ tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 }} />, title: t("common:payment") }} />
-        <Tab.Screen name="Transaction" component={Transaction} options={{ tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 }} />, title: t("common:transaction") }} />
-        <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarIcon: () => <Image source={icons.setting} style={{ height: 30, width: 30 }} />, title: t("common:setting") }} />
+  return <Tab.Navigator screenOptions={{ headerShown: false}} >
+        <Tab.Screen  name="Home" component={HomeScreen} options={{tabBarIcon: () => <Image source={icons.home} style={{ height: 30, width: 30 }} />, title: t('common:home')}} />
+        <Tab.Screen name="Payment" component={PhonePayment} options={{ tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 }} />, title: t('common:payment') }} />
+        <Tab.Screen name="Transaction" component={Transaction} options={{ tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 }} />, title: t('common:transaction') }} />
+        <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarIcon: () => <Image source={icons.setting} style={{ height: 30, width: 30 }} />, title: t('common:setting') }} />
       </Tab.Navigator>;
 
 }
@@ -92,6 +95,9 @@ const Navigation = () => {
         />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="BottomTabs" component={MyTabs} />
+        <Stack.Screen name="Transaction" component={Transaction} />
+        <Stack.Screen name="Payment" component={PhonePayment} />
+        <Stack.Screen name="Settings" component={SettingsScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

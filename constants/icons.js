@@ -38,6 +38,7 @@ const profile = require('../assets/icons/transparency.png');
 const logoBank = require('../assets/icons/logoBank.png');
 const copy = require('../assets/icons/copy.png');
 const qr = require('../assets/icons/qr.png');
+const threecircle = require('../assets/icons/threecircle.png');
 export default {
   profile,
   avatar,
@@ -79,4 +80,5 @@ export default {
   logoBank,
   copy,
   qr,
+  threecircle,
 };

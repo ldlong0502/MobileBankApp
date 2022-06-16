@@ -63,7 +63,8 @@ export default {
   phone_Payment: 'Thanh toán điện thoại',
   more: 'Thêm',
   feature: 'Tính năng',
-
+  accountInformation: 'THÔNG TIN',
+  numAccount: 'Số TK',
   //Login
   phone: 'Số điện thoại',
   password: 'Mật khẩu',
