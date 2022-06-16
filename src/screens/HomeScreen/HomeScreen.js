@@ -246,7 +246,7 @@ const HomeScreen = () => {
         }}
         onPress={() => {
           console.log(item.description);
-          navigation.navigate(item.description);
+          navigation.navigate(item.description.toLowerCase());
         }}
       >
         <View

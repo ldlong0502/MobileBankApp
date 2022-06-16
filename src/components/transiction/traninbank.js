@@ -149,7 +149,12 @@ class InBank extends React.Component {
             if(parseInt(this.state.money)>this.state.surplus+50000){
               alert(' số dư  không đủ ');
               this.setState({money: 0})
-            }else{
+            }
+            else if(this.state.rcName ===''){
+              alert('chưa nhập số tài khoản ')
+            }
+            else
+            {
             this.props.navigation.navigate('pin', {package: this.state});}
           }}>
           <Text

@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
+  TouchableOpacity,Alert
 
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
@@ -56,7 +56,14 @@ export default class Pinui extends Component {
         .then(() => {
           console.log('Users updated!');
         });
-      alert('Giao dịch thành công');
+      Alert.alert('Thông báo','Giao dịch thành công', [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]);
       this.props.navigation.navigate('ConfirmScreen', {data:this.state});
     } else {
       alert('wrong pin');
@@ -86,7 +93,7 @@ export default class Pinui extends Component {
             }}
             disabled={this.state.buttonDisabled}
             style={styles.button}>
-            <Text>Kiểm tra</Text>
+            <Text>chuyển tiền </Text>
           </TouchableOpacity>
         </View>
       </View>
