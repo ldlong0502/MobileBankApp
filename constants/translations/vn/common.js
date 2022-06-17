@@ -19,7 +19,7 @@ export default {
   changeAvatar: 'Đổi ảnh đại diện',
   changeBackground: 'Đổi ảnh nền',
   advancedSetting: 'Cài đặt nâng cao',
-  smartOTP: 'Smart OTP',
+  smartOTP: 'Đổi mã Pin',
   phoneBook: 'Danh bạ chuyển tiền',
   paymentForm: 'Mẫu thanh toán',
   changePassword: 'Đổi mật khẩu',

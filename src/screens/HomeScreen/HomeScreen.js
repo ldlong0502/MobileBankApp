@@ -10,6 +10,7 @@ import {
   LogBox,
   ImageBackground,
   Alert,
+  ToastAndroid,
 } from 'react-native';
 import { COLORS, SIZES, FONTS, icons, images } from '../../../constants';
 import { useNavigation } from '@react-navigation/native';
@@ -200,7 +201,10 @@ const HomeScreen = () => {
           <Text style={{ flex: 1 ,color: 'white', margin: 15, ...FONTS.body2 }}>
             {t('common:numAccount')}: {Data.getDataUser.bankID}
           </Text>
-          <TouchableOpacity onPress={() => Clipboard.setString(Data.getDataUser.bankID)} style={{ alignSelf: 'center' }}>
+          <TouchableOpacity onPress={() => {
+            Clipboard.setString(Data.getDataUser.bankID);
+            ToastAndroid.show(t('common:cped'), ToastAndroid.SHORT);
+          }} style={{ alignSelf: 'center' }}>
             <Image source={icons.copy} style={{ flex: 0,height: 20, width: 20, marginRight:20, tintColor: 'black'}}  />
           </TouchableOpacity>
         </View>
@@ -354,7 +358,7 @@ const HomeScreen = () => {
             style={{
               width: 80,
               height: 80,
-            
+
             }}
           />
         </View>
@@ -370,7 +374,7 @@ const HomeScreen = () => {
             alignItems: 'center',
             justifyContent: 'center',
             height: 100,
-         
+
           }}>
           <Text style={{...FONTS.h4,color: 'white'}}>{item.title}</Text>
           <Text style={{...FONTS.body4,color: 'white'}}>{item.description}</Text>

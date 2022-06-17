@@ -24,7 +24,10 @@ import Data from '../Data/Data';
 import firestore from '@react-native-firebase/firestore';
 import HelpFunction from '../../HelpFunction';
 import Pinui from '../components/transiction/pinui';
-
+import ConfirmPin from '../Settings/ConfirmPin';
+import ConfirmPhoneAgain from '../Settings/ConfirmCodeAgain';
+import Privacy from '../Settings/Privacy';
+import ContactUs from '../Settings/ContactUs';
 const Tab = createBottomTabNavigator(
 
 );
@@ -172,7 +175,32 @@ const Navigation = () => {
         <Stack.Screen name="Payment" component={PhonePayment} />
         <Stack.Screen  name="Settings" component={SettingsScreen}/>
         <Stack.Screen  name="Bill" component={Bill}/>
+        <Stack.Screen  name="ConfirmPin" component={ConfirmPin}/>
+        <Stack.Screen  name="ConfirmPhoneAgain" component={ConfirmPhoneAgain}/>
+        <Stack.Screen options={{
+            headerShown:true,
+            title: t('common:privacy'),
+            headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}  name= "Privacy" component={Privacy}/>
+        <Stack.Screen options={{
+            headerShown:true,
+            title: t('common:contact'),
+            headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }} name="ContactUs" component={ContactUs}/>
       </Stack.Navigator>
+
     </NavigationContainer>
   );
 };

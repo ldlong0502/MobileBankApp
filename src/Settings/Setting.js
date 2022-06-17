@@ -48,9 +48,16 @@ export default function Setting() {
       setShowAvatar(true);
     } else if (index === 2) {
       setShowBackground(true);
-    } else if (index === 3) {
+    }  else if (index === 3) {
       setShowSmartOTP(true);
-    } else if (index === 6) {
+    }
+    else if (index === 4) {
+      navigation.navigate('Privacy');
+    }
+     else if (index === 5) {
+      navigation.navigate('ContactUs');
+    }
+    else if (index === 6) {
       setChangePassword(true);
     }
     else {

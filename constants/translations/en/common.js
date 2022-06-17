@@ -20,7 +20,7 @@ export default {
   changeAvatar: 'Change Avatar',
   changeBackground: 'Change Background',
   advancedSetting: 'Advanced Settings',
-  smartOTP: 'Smart OTP',
+  smartOTP: 'Change PIN CODE',
   phoneBook: 'PhoneBook',
   paymentForm: 'Payment Form',
   changePassword: 'Change Password',
