@@ -24,7 +24,7 @@ class InBank extends React.Component {
     super(props);
     this.state = {
       day: new Date(),
-      transactionFee:1000,
+      transactionFee: 1000,
       username: Data.getDataUser.name,
       rcName: '',
       idrc: '',
@@ -36,7 +36,8 @@ class InBank extends React.Component {
       surplusrc: 0,
       pin: Data.getDataUser.pin,
       phone: Data.getDataUser.phone,
-      ids:Data.getDataUser.id,
+      ids: Data.getDataUser.id,
+      banktype: Data.getDataUser.banktype,
     };
 
     this.loadTargetUser = this.loadTargetUser.bind(this);
@@ -81,7 +82,11 @@ class InBank extends React.Component {
       .get()
       .then(collectionSnapshot => {
         collectionSnapshot.forEach(documentSnapshot => {
-          if (documentSnapshot._data.bankID === this.state.BANRC) {
+          if (
+            documentSnapshot._data.bankID === this.state.BANRC &&
+            documentSnapshot._data.banktype === this.state.banktype
+          ) {
+            console.log("co")
             this.setState({
               idrc: documentSnapshot.id,
               rcName: documentSnapshot._data.name,
@@ -122,11 +127,10 @@ class InBank extends React.Component {
           <TextInput
             style={styles.inputtext}
             onChangeText={e => {
-             
               this.setState({money: e});
             }}
             value={this.money}
-            keyboardType = 'numeric'
+            keyboardType="numeric"
             placeholder="Số tiền    ...    vnđ"></TextInput>
           <TextInput
             onChangeText={e => {
@@ -146,16 +150,14 @@ class InBank extends React.Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            if(parseInt(this.state.money)>this.state.surplus+50000){
+            if (parseInt(this.state.money) > this.state.surplus + 50000) {
               alert(' số dư  không đủ ');
-              this.setState({money: 0})
+              this.setState({money: 0});
+            } else if (this.state.rcName === '') {
+              alert('chưa nhập số tài khoản ');
+            } else {
+              this.props.navigation.navigate('pin', {package: this.state});
             }
-            else if(this.state.rcName ===''){
-              alert('chưa nhập số tài khoản ')
-            }
-            else
-            {
-            this.props.navigation.navigate('pin', {package: this.state});}
           }}>
           <Text
             style={{

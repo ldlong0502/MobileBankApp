@@ -17,7 +17,14 @@ class ConfirmScreen extends React.Component {
       targetbankaccountnumber: this.props.route.params.data.BANRC,
       msg: this.props.route.params.data.message,
       tradevalue: this.props.route.params.data.money,
+      banktype: this.props.route.params.data.banktype,
       transactionfee: '1000 VND',
+      bankname: {
+        0:'',
+        1: 'Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)',
+        2: 'Vietinbank (Ngân hàng Thương mại cổ phần Công Thương Việt Nam)',
+        3: 'Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank)',
+      },
     };
   }
 
@@ -26,7 +33,7 @@ class ConfirmScreen extends React.Component {
       <View style={styles.container}>
         <View style={styles.bigContainer}>
           <View style={styles.smallContainer}>
-            <Text style={styles.textt}>Tài khoản đích </Text>
+            <Text style={styles.textt}>Tài khoản nguồn </Text>
           </View>
           <View style={styles.smallContainer}>
             <Text style={styles.TextRight}>{this.state.username}</Text>
@@ -40,10 +47,13 @@ class ConfirmScreen extends React.Component {
             <Text style={styles.text}>Tài khoản đích</Text>
           </View>
           <View style={styles.smallContainer}>
-            <Text style={styles.TextRight}>{this.state.targetname}</Text>
+            <Text style={styles.TextRight}>{this.state.targetname}   {this.state.bankname[this.state.banktype]}</Text>
             <Text style={styles.TextRight}>
               {this.state.targetbankaccountnumber}
             </Text>
+          
+             
+        
           </View>
         </View>
         <View style={styles.bigContainer}>
@@ -51,7 +61,9 @@ class ConfirmScreen extends React.Component {
             <Text style={styles.textt}>giá trị giao dịch</Text>
           </View>
           <View style={styles.smallContainer}>
-            <Text style={styles.TextRight}>Số tiền : {this.state.tradevalue} VND </Text>
+            <Text style={styles.TextRight}>
+              Số tiền : {this.state.tradevalue} VND{' '}
+            </Text>
             <Text style={styles.TextRight}>
               Bằng chữ: {DocTienBangChu(this.state.tradevalue)}
             </Text>
@@ -73,7 +85,6 @@ class ConfirmScreen extends React.Component {
             style={styles.button}
             onPress={() =>
               this.props.navigation.reset({
-                
                 routes: [
                   {
                     name: 'InBank',
@@ -232,7 +243,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingLeft: 20,
-    marginTop:-40,
+    marginTop: -40,
     backgroundColor: 'white',
     flexDirection: 'column',
     alignItems: 'center',
@@ -259,7 +270,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     textTransform: 'uppercase',
-    marginBottom: 5
+    marginBottom: 5,
   },
 
   button: {

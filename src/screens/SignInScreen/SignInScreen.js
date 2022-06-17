@@ -72,6 +72,8 @@ const SignInScreen = () => {
             name: doc.data().name,
             bankID: doc.data().bankID,
             pin: doc.data().pin,
+            banktype: doc.data().banktype,
+            list: doc.data().list,
           });
         });
       });

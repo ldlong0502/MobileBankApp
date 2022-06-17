@@ -7,6 +7,7 @@ import {
   TouchableOpacity,Alert
 
 } from 'react-native';
+import Data from '../../Data/Data';
 import firestore from '@react-native-firebase/firestore';
 import Pin from 'react-native-pin-code-ui';
 
@@ -28,6 +29,7 @@ export default class Pinui extends Component {
       surplusrc: this.props.route.params.package.surplusrc,
       pin: this.props.route.params.package.pin,
       ids: this.props.route.params.package.ids,
+      banktype: this.props.route.params.package.banktype,
       transactionFee: 1000,
     };
     this.checkPin = this.checkPin.bind(this);
@@ -52,6 +54,15 @@ export default class Pinui extends Component {
         .doc(this.state.ids)
         .update({
           surplus: this.state.surplus - parseInt(this.state.money)-this.state.transactionFee,
+        })
+        .then(() => {
+          console.log('Users updated!');
+        });
+        firestore()
+        .collection('users')
+        .doc(this.state.ids)
+        .update({
+          list: [...Data.getDataUser.list].concat(this.state.idrc),
         })
         .then(() => {
           console.log('Users updated!');
