@@ -22,10 +22,10 @@ const LANGUAGE_DETECTOR = {
         } else {
           console.log('No language is set, choosing Vietnamese as fallback');
         }
-        const findBestAvailableLanguage = RNLocalize.findBestAvailableLanguage(
-          LANG_CODES
-        );
-        callback(findBestAvailableLanguage.languageTag || 'vn' );
+        // const findBestAvailableLanguage = RNLocalize.findBestAvailableLanguage(
+        //   LANG_CODES
+        // );
+        callback( 'vn' );
         return;
       }
       callback(language);

@@ -19,11 +19,12 @@ const formatTime = value => {
 };
 const getListTransaction = async () => {
   Data.getTransactionHistory().splice(0, Data.getTransactionHistory().length);
+     console.log('tuiii');
   firestore()
     .collection('historyTransaction')
     .where('userId', '==', Data.getDataUser.id)
     .onSnapshot(querySnapshot => {
-      console.log(querySnapshot);
+      console.log(querySnapshot.docChanges().length + 'Hello');
       querySnapshot.docChanges().forEach(change => {
         if (change.type === 'added') {
           console.log('New transaction555: ', change.doc.data());
@@ -32,7 +33,7 @@ const getListTransaction = async () => {
             new Date().getFullYear()
           ) {
             Data.setTransactionHistory(change.doc.data());
-
+            if (change.doc.data().isNotification === true) { return; }
             if (change.doc.data().isAdd === true) {
               var item = change.doc.data();
               let data = {
@@ -42,6 +43,12 @@ const getListTransaction = async () => {
                 token:Data.getTokenDeviceID,
               };
               NotificationService.sendSingleDeviceNotification(data);
+              firestore()
+                 .collection('historyTransaction')
+                 .doc(change.doc.id)
+                 .update({
+                   isNotification: true,
+                 });
               return;
             }
             else {
@@ -59,6 +66,12 @@ const getListTransaction = async () => {
                 token:Data.getTokenDeviceID,
               };
               NotificationService.sendSingleDeviceNotification(data);
+               firestore()
+                 .collection('historyTransaction')
+                 .doc(change.doc.id)
+                 .update({
+                   isNotification: true,
+                 });
               return;
             }
           }

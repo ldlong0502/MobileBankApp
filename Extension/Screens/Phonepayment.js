@@ -107,6 +107,7 @@ function HomeScreen(){
             userId:Data.getDataUser.id,
             content: 'Nạp tiền cho SĐT: ' + pn + '\n Thời điểm giao dịch: ' + tt,
             idService: 2,
+            isNotification: false,
             }
 
             );
@@ -372,6 +373,7 @@ function BuycardScreen(){
                 userId:Data.getDataUser.id,
                 content: 'Bạn vừa thanh toán thành công cho mã thẻ điện thoại có mệnh giá ' + HelpFunction.formatMoney(value) + '\n Thời điểm giao dịch: ' + tt,
                 idService: 2,
+                isNotification: false,
             }
             );
 

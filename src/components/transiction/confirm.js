@@ -95,7 +95,7 @@ class ConfirmScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('BottomsTab')}>
+            onPress={() => this.props.navigation.navigate('BottomTabs')}>
             <Text
               style={{
                 color: 'white',

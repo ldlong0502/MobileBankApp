@@ -167,7 +167,7 @@ const HomeScreen = () => {
       }
     });
   });
-  HelpFunction.getListTransaction();
+ HelpFunction.getListTransaction();
   },[isFocused]);
   function renderHeader() {
     return (

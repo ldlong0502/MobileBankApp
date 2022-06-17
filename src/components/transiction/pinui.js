@@ -68,6 +68,7 @@ export default class Pinui extends Component {
         toBankId: this.state.BANRC,
         fromBankId: '',
         idService: 1,
+        isNotification: false,
       });
       await firestore().collection('historyTransaction').doc().set({
         isAdd: true,
@@ -79,6 +80,7 @@ export default class Pinui extends Component {
         fromBankId: this.state.BANS,
         toBankId: '',
         idService: 1,
+        isNotification: false,
       });
 
       Alert.alert('Thông báo','Giao dịch thành công', [
