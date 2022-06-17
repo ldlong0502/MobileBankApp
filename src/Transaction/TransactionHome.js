@@ -59,9 +59,9 @@ export default function Transaction() {
         style={{
           flexDirection: 'row',
           height: 50,
-          backgroundColor: '#F0FFF0',
+          backgroundColor: '#06283D',
           margin: 20,
-          padding: 5,
+          padding: 0,
           borderRadius: 100,
         }}
       >
@@ -71,9 +71,10 @@ export default function Transaction() {
             flex: 1,
             alignSelf: 'center',
             height: '80%',
+            width: '30%',
             marginLeft: '5%',
-            borderRadius: 100,
-            backgroundColor: isAdd ? '#DCDCDC' : null,
+            borderRadius: 20,
+            backgroundColor: isAdd ? '#DFF6FF' : null,
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -81,7 +82,7 @@ export default function Transaction() {
           <Text
             style={{
               ...FONTS.body4,
-              color: isAdd ? COLORS.purple : COLORS.black,
+              color: isAdd ? COLORS.purple : COLORS.white,
               fontWeight: 'bold',
             }}
           >
@@ -95,8 +96,8 @@ export default function Transaction() {
             alignSelf: 'center',
             height: '80%',
             marginRight: '5%',
-            borderRadius: 10,
-            backgroundColor: !isAdd ? '#DCDCDC' : null,
+            borderRadius: 5,
+            backgroundColor: !isAdd ? '#DFF6FF' : null,
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -129,16 +130,16 @@ export default function Transaction() {
       <View
         style={{
           flex: 30,
-          marginTop: '20%',
-          borderTopLeftRadius: 40,
-          borderTopRightRadius: 40,
+          marginTop:'20%',
+    
+         
           borderWidth: 2,
-          backgroundColor: '#FFFFFF',
-          borderColor: COLORS.transparent,
+          backgroundColor: '#47B5FF',
+          borderColor: "#47B5FF",
         }}
       >
-        <View style={{ height: '15%', padding: 8 }}>
-          <Text style={{ ...FONTS.h4, color: COLORS.purple, marginLeft: 10 }}>
+        <View style={{ height: '20%', padding: 8 ,}}>
+          <Text style={{ ...FONTS.h4, color:'#DFF6FF', marginLeft: 10 }}>
             {t('common:transaction')}
           </Text>
         </View>
@@ -150,7 +151,7 @@ export default function Transaction() {
                   key={index}
                   style={{ padding: 10, flexDirection: 'column' }}
                 >
-                  <Text style={{ ...FONTS.body4 }}>
+                  <Text style={{ ...FONTS.body4 ,color:'#DFF6FF'}}>
                     {item === now ? t('common:today') : item}
                   </Text>
                   <View style={{ margin: 10, flexDirection: 'column' }}>
@@ -160,22 +161,22 @@ export default function Transaction() {
                             key={index1}
                             style={{
                               flexDirection: 'row',
-                              backgroundColor: '#CCFFFF',
+                              backgroundColor: '#1363DF',
                               marginTop: 10,
-                              borderRadius: 40,
-                              padding: 20,
+                              borderRadius: 20,
+                              padding: 10,
                             }}
                           >
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                              <Text style={{ color: '#330066', ...FONTS.h2 }}>
+                              <Text style={{ color: '#DFF6FF', ...FONTS.h2 }}>
                                 {item1.title}
                               </Text>
-                              <Text>
+                              <Text style={{ color: '#DFF6FF'}}>
                                 {item1.time}
                               </Text>
                               <Text
                                 style={{
-                                  color: item1.isAdd ? 'orange' : COLORS.red,
+                                  color: item1.isAdd ? '#DFF6FF' : COLORS.red,
                                   ...FONTS.body3,
                                 }}
                               >
@@ -261,7 +262,7 @@ export default function Transaction() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#43CD80',
+    backgroundColor: '#47B5FF',
   },
   title: {
     flex: 2,

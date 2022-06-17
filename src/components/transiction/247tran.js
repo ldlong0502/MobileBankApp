@@ -207,12 +207,12 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 0,
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#DFF6FF',
     flexDirection: 'column',
     alignItems: 'center',
   },
   smallContainer1: {
-    backgroundColor: 'white',
+    backgroundColor: '#DFF6FF',
     padding: 10,
 
     width: '100%',
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   smallContainer2: {
-    backgroundColor: 'white',
+    backgroundColor: '#DFF6FF',
     padding: 10,
     margin: 6,
     width: '100%',
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   smallContainer3: {
-    backgroundColor: 'white',
+    backgroundColor: '#DFF6FF',
     padding: 10,
     margin: 6,
     width: '100%',
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   reallySmallContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#DFF6FF',
 
     marginBottom: 5,
     width: '100%',
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   button: {
     display: 'flex',
     margin: 4,
-    backgroundColor: '#43CD80',
+    backgroundColor: '#1363DF',
     height: 50,
     width: '80%',
     padding: 10,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   bigtext: {
-    color: '#A54175',
+    color: '#06283D',
     fontSize: 20,
     fontWeight: '400',
     margin: 2,

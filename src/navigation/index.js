@@ -32,25 +32,25 @@ const Tab = createBottomTabNavigator(
 function MyTabs() {
   const {t} = useTranslation();
   return <Tab.Navigator screenOptions={{ headerShown: false}} >
-        <Tab.Screen  name="Home" component={HomeScreen} options={{tabBarIcon: () => <Image source={icons.home} style={{ height: 30, width: 30 }} />, title: t('common:home')}} />
+        <Tab.Screen  name="Home" component={HomeScreen} options={{tabBarIcon: () => <Image source={icons.home} style={{ height: 30, width: 30,tintColor:'#06283D' }} />, title: t('common:home')}} />
         <Tab.Screen  name="transfer" component={Table} options={{ headerShown: true,
             headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#06283D',
             },
-            headerTintColor: '#fff',
+            headerTintColor: '#DFF6FF',
             headerTitleStyle: {
               fontWeight: 'bold',
-            },tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 }} />, title: t('common:transfer') }} />
+            },tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 ,tintColor:'#06283D' }} />, title: t('common:transfer') }} />
         <Tab.Screen name="Transaction" component={Transaction} options={{headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#1363DF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
               fontWeight: 'bold',
               alignSelf:'center',
               justifyContent: 'center',
-            } ,headerShown: true, tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 }} />, title: t('common:titleTransaction')  }} />
-        <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarIcon: () => <Image source={icons.setting} style={{ height: 30, width: 30 }} />, title: t('common:setting') }} />
+            } ,headerShown: true, tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 ,tintColor:'#06283D' }} />, title: t('common:titleTransaction')  }} />
+        <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarIcon: () => <Image source={icons.setting} style={{ height: 30, width: 30 ,tintColor:'#06283D' }} />, title: t('common:setting') }} />
       </Tab.Navigator>;
 
 }
@@ -72,7 +72,7 @@ const Navigation = () => {
             headerShown: true,
             title: t('common:transfer'),
             headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#1363DF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -87,7 +87,7 @@ const Navigation = () => {
             headerShown: true,
             title: 'Scan',
             headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#1363DF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -102,7 +102,7 @@ const Navigation = () => {
             headerShown:true,
             title: 'Chuyển tiền nội bộ LTBB',
             headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#1363DF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -117,7 +117,7 @@ const Navigation = () => {
             title: 'Pin Confirm',
             headerShown:true,
             headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#1363DF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -132,7 +132,7 @@ const Navigation = () => {
             headerShown:true,
             title: 'Chuyển tiền nhanh 24/7 ngoài VCB',
             headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#1363DF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -147,7 +147,7 @@ const Navigation = () => {
             headerShown:true,
             title: 'Xác nhận thông tin',
             headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#1363DF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -162,7 +162,7 @@ const Navigation = () => {
             headerShown:true,
             title: t('common:titleTransaction'),
             headerStyle: {
-              backgroundColor: '#43CD80',
+              backgroundColor: '#1363DF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {

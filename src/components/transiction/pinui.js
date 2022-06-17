@@ -120,7 +120,7 @@ export default class Pinui extends Component {
           styleEmptyBox={{borderColor: 'red'}}
           styleFullBox={{borderColor: 'green'}}
           styleText={{...FONTS.body2}}
-          styleButton={{backgroundColor: 'red'}}
+          
         />
         <View style={{justifyContent: 'center', marginTop: '10%'}}>
 
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 50,
     width: 120,
-    backgroundColor: '#43CD80',
+    backgroundColor: '#1363DF',
     justifyContent: 'center',
     alignItems: 'center',
   },

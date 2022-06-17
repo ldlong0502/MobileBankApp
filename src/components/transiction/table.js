@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { FONTS, icons } from '../../../constants';
 import { template } from '@babel/core';
+
 import Icon from 'react-native-vector-icons/Entypo';
 function Table () {
   const navigation = useNavigation();
@@ -51,16 +52,17 @@ function Table () {
     }
   };
   const renderData = (item, index) => {
-    return <View key={index} style={{height: '15%', borderColor: '#E8E8E8', borderBottomWidth: 10, marginTop: 10 }}>
+    return <View key={index} style={{height: '15%', borderColor: '#47B5FF', borderBottomWidth: 10, marginTop: 10 }}>
     <TouchableOpacity  onPress={() => Click(item.id)} style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-    <Image style={{height: 30, width: 30, flex: 1 , marginLeft: 10, tintColor: '#00FF7F'}} source={item.icon} />
-    <Text style={{...FONTS.body3, color: 'green', flex: 10, marginLeft: 10}}>{item.content}</Text>
-    <Icon name="forward" size={30} style={{color: 'green', marginRight: 10}}/>
+    <Image style={{height: 30, width: 30, flex: 1 , marginLeft: 10, tintColor: '#47B5FF'}} source={item.icon} />
+    <Text style={{...FONTS.body3, color: '#47B5FF', flex: 10, marginLeft: 10}}>{item.content}</Text>
+    <Icon name="forward" size={30} style={{color: '#47B5FF', marginRight: 10}}/>
     </TouchableOpacity>
     </View>;
   };
     return <View>
         {data.map((e, index) => renderData(e, index))}
+        
       </View>;
 }
 const styles = StyleSheet.create({
