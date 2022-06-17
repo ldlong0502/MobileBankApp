@@ -7,6 +7,11 @@ export default {
   sort: 'Sort by',
   today: 'Today',
   search: 'Search by Date',
+  in: 'IN',
+  out: 'OUT',
+  inAlert: 'Total money IN this month: ',
+  outAlert: 'Total money OUT this month: ',
+  total: 'Total: ',
 
   //SettingScreen
   exit: 'Exit',
@@ -20,6 +25,8 @@ export default {
   paymentForm: 'Payment Form',
   changePassword: 'Change Password',
   otherSetting: 'Other Settings',
+  contact: 'Contact us',
+  privacy: 'Privacy Policy',
 
   //Other Setting
   setting: 'Settings',
@@ -67,7 +74,16 @@ export default {
   feature: 'Features',
   accountInformation: 'INFORMATION',
   numAccount: 'Account Number',
-
+  service: 'Favorite Service',
+  food: 'Order Food',
+  foodBody: 'Lets Eat!!!',
+  gift: 'Birthday Gift',
+  giftBody: 'Happy birthday!!!',
+  hotel: 'Book a HomeStay',
+  hotelBody: 'Let travel!!!',
+  invest: 'Invest Stocks',
+  investBody: 'Smart spending',
+  viewAll: 'View All',
   //Login
   phone: 'Phone number',
   password: 'Your password',

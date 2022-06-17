@@ -33,8 +33,23 @@ function MyTabs() {
   const {t} = useTranslation();
   return <Tab.Navigator screenOptions={{ headerShown: false}} >
         <Tab.Screen  name="Home" component={HomeScreen} options={{tabBarIcon: () => <Image source={icons.home} style={{ height: 30, width: 30 }} />, title: t('common:home')}} />
-        <Tab.Screen name="Payment" component={PhonePayment} options={{ tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 }} />, title: t('common:payment') }} />
-        <Tab.Screen name="Transaction" component={Transaction} options={{ tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 }} />, title: t('common:transaction') }} />
+        <Tab.Screen  name="transfer" component={Table} options={{ headerShown: true,
+            headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 }} />, title: t('common:transfer') }} />
+        <Tab.Screen name="Transaction" component={Transaction} options={{headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              alignSelf:'center',
+              justifyContent: 'center',
+            } ,headerShown: true, tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 }} />, title: t('common:titleTransaction')  }} />
         <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarIcon: () => <Image source={icons.setting} style={{ height: 30, width: 30 }} />, title: t('common:setting') }} />
       </Tab.Navigator>;
 
@@ -42,6 +57,7 @@ function MyTabs() {
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+    const { t } = useTranslation();
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -54,7 +70,7 @@ const Navigation = () => {
           name="transfer"
           options={{
             headerShown: true,
-            title: 'Chuyển tiền',
+            title: t('common:transfer'),
             headerStyle: {
               backgroundColor: '#43CD80',
             },
@@ -71,7 +87,7 @@ const Navigation = () => {
             headerShown: true,
             title: 'Scan',
             headerStyle: {
-              backgroundColor: '#A54175',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -142,7 +158,17 @@ const Navigation = () => {
         />
         <Stack.Screen  name="Home" component={HomeScreen} />
         <Stack.Screen name="BottomTabs" component={MyTabs} />
-        <Stack.Screen name="Transaction" component={Transaction} />
+        <Stack.Screen  options={{
+            headerShown:true,
+            title: t('common:titleTransaction'),
+            headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}name="Transaction" component={Transaction} />
         <Stack.Screen name="Payment" component={PhonePayment} />
         <Stack.Screen  name="Settings" component={SettingsScreen}/>
         <Stack.Screen  name="Bill" component={Bill}/>

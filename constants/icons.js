@@ -41,6 +41,8 @@ const qr = require('../assets/icons/qr.png');
 const bank = require('../assets/icons/bank.png');
 const threecircle = require('../assets/icons/threecircle.png');
 const different = require('../assets/icons/different.png');
+const privacy = require('../assets/icons/privacy.png');
+const contact = require('../assets/icons/contact.png');
 export default {
   profile,
   avatar,
@@ -85,4 +87,6 @@ export default {
   qr,
   threecircle,
   bank,
+  privacy,
+  contact,
 };

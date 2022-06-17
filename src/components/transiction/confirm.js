@@ -22,7 +22,7 @@ class ConfirmScreen extends React.Component {
       transactionfee: 1000,
       bankname: {
         0:'',
-        1: 'Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)',
+        1: 'Ngân hàng Thương mại mới nổi (LTBB)',
         2: 'Vietinbank (Ngân hàng Thương mại cổ phần Công Thương Việt Nam)',
         3: 'Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank)',
       },
@@ -48,7 +48,7 @@ class ConfirmScreen extends React.Component {
             <Text style={styles.text}>Tài khoản đích</Text>
           </View>
           <View style={styles.smallContainer}>
-            <Text style={styles.TextRight}>{this.state.targetname}   {this.state.bankname[this.state.banktype]}</Text>
+            <Text style={styles.TextRight}>{this.state.targetname} - {this.state.bankname[this.state.banktype]}</Text>
             <Text style={styles.TextRight}>
               {this.state.targetbankaccountnumber}
             </Text>                    
@@ -56,7 +56,7 @@ class ConfirmScreen extends React.Component {
         </View>
         <View style={styles.bigContainer}>
           <View style={styles.smallContainer}>
-            <Text style={styles.textt}>giá trị giao dịch</Text>
+            <Text style={styles.textt}>Giá trị giao dịch</Text>
           </View>
           <View style={styles.smallContainer}>
             <Text style={styles.TextRight}>Số tiền : {HelpFunction.formatMoney(parseFloat(this.state.tradevalue))}</Text>
@@ -280,6 +280,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     borderWidth: 1,
+    borderColor: 'transparent',
   },
   bottom: {
     backgroundColor: 'red',

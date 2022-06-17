@@ -16,11 +16,12 @@ import {Picker} from '@react-native-picker/picker';
 import firestore from '@react-native-firebase/firestore';
 import {t} from 'i18next';
 import { ScrollView } from 'react-native-gesture-handler';
+import HelpFunction from '../../../HelpFunction';
 class InBank extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      day: new Date(),
+      day: HelpFunction.getCurrentDate(),
       transactionFee: 1000,
       username: Data.getDataUser.name,
       rcName: '',
@@ -125,20 +126,20 @@ this.setState({banktype:pr1});
                 {this.state.username}
               </Text>
               <Text style={styles.smtext}>
-                {' '}{this.state.BANS}
+                {" "}{this.state.BANS}
               </Text>
               <Text style={styles.smtext}>
-                {' '}{this.state.surplus} VND
+                {" "}{HelpFunction.formatMoney(this.state.surplus)}
               </Text>
             </View>
             <View style={styles.smallContainer2}>
               <Text style={styles.bigtext}>Chuyển tới</Text>
               <TextInput value={this.state.BANRC} style={styles.inputtext} onBlur={this.love} onChangeText={e => {
                   this.setState({ BANRC: e });
-                }} placeholder="số tài khoản ..." />
-              <Picker selectedValue={this.state.banktype} style={{ height: 50, width: '100%' }} onValueChange={(itemValue, itemIndex) => this.newlove(itemValue, itemIndex)}>
+                }} placeholder="Số tài khoản ..." />
+              <Picker selectedValue={this.state.banktype} style={{ height: 50, width: "100%" }} onValueChange={(itemValue, itemIndex) => this.newlove(itemValue, itemIndex)}>
                 <Picker.Item label="Chọn Ngân Hàng" value="0" />
-                <Picker.Item label="Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)" value="1" />
+                <Picker.Item label="Ngân hàng Thương mại mới nổi (LTBB)" value="1" />
                 <Picker.Item label="Vietinbank (Ngân hàng Thương mại cổ phần Công Thương Việt Nam)" value="2" />
                 <Picker.Item label="Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank) " value="3" />
               </Picker>
@@ -161,23 +162,28 @@ this.setState({banktype:pr1});
             </View>
             <View style={styles.reallySmallContainer}>
               <Text style={styles.smtext}>
-                Ngày chuyển : Hôm nay, {this.state.day.getDate()}/
-                {this.state.day.getMonth()}/{this.state.day.getFullYear()}
+                Ngày chuyển : Hôm nay, {this.state.day.split(" ")[0]}
               </Text>
             </View>
 
             <TouchableOpacity style={styles.button} onPress={() => {
-                if (parseInt(this.state.money) < this.state.surplus + 50000) {
-                  alert(' số dư  không đủ ');
+                if (parseInt(this.state.money) > this.state.surplus + 50000) {
+                  alert(" số dư  không đủ ");
                   this.setState({ money: 0 });
                 } else {
-                  this.props.navigation.navigate('pin', {
-                    package: this.state,
+                  this.props.navigation.navigate("pin", {
+                    package: this.state
                   });
                 }
               }}>
-              <Text style={{ color: 'white', textTransform: 'capitalize', fontSize: 16 }}>
-                {' '}tiếp tục
+              <Text
+                style={{
+                  color: "white",
+                  textTransform: "capitalize",
+                  fontSize: 16
+                }}
+              >
+                {" "}tiếp tục
               </Text>
             </TouchableOpacity>
 
@@ -244,6 +250,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: '80%',
     padding: 10,
+
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 15,

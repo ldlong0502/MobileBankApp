@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   SafeAreaView,
@@ -24,6 +24,7 @@ import { useIsFocused } from '@react-navigation/native';
 const HomeScreen = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const [see, setSee] = useState();
   const featuresData = [
     {
       id: 1,
@@ -62,17 +63,17 @@ const HomeScreen = () => {
     },
     {
       id: 6,
-      icon: icons.internet,
-      color: COLORS.primary,
-      backgroundColor: COLORS.lightGreen,
-      description: t('common:internet_Payment'),
-    },
-    {
-      id: 7,
       icon: icons.phone,
       color: COLORS.red,
       backgroundColor: COLORS.lightRed,
       description: t('common:phone_Payment'),
+    },
+    {
+      id: 7,
+      icon: icons.transaction,
+      color: COLORS.primary,
+      backgroundColor: COLORS.lightGreen,
+      description: t('common:transaction'),
     },
     {
       id: 8,
@@ -82,30 +83,30 @@ const HomeScreen = () => {
       description: t('common:more'),
     },
   ];
-  const specialPromoData = [
+   const specialPromoData = [
     {
       id: 1,
-      img: images.promoBanner,
-      title: 'Bonus Cashback1',
-      description: "Don't miss it. Grab it now!",
+      img: 'https://img.freepik.com/free-vector/realistic-cooked-chicken-plate-white-background-vector_532963-1938.jpg?w=2000',
+      title: t('common:food'),
+      description: t('common:foodBody'),
     },
     {
       id: 2,
-      img: images.promoBanner,
-      title: 'Bonus Cashback2',
-      description: "Don't miss it. Grab it now!",
+      img: 'https://brouwhoeve.es/wp-content/uploads/2022/02/istockphoto-1128262881-612x612-1.jpg',
+      title: t('common:gift'),
+      description: t('common:giftBody'),
     },
     {
       id: 3,
-      img: images.promoBanner,
-      title: 'Bonus Cashback3',
-      description: "Don't miss it. Grab it now!",
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNxDLP_Jl5zuiDIHqUSkbeRV7RhRbxDSQvyg&usqp=CAU',
+      title: t('common:hotel'),
+      description: t('common:hotelBody'),
     },
     {
       id: 4,
-      img: images.promoBanner,
-      title: 'Bonus Cashback4',
-      description: "Don't miss it. Grab it now!",
+      img: 'https://img.freepik.com/free-vector/gold-coin-with-dollar-sign-white-background_149267-970.jpg?w=2000',
+      title: t('common:invest'),
+      description: t('common:investBody'),
     },
   ];
 
@@ -119,6 +120,7 @@ const HomeScreen = () => {
     if (!isFocused){
       return;
     }
+    setSee(false);
      firestore().collection('users')
     .where('phone', '==', Data.getDataUser.phone)
     .onSnapshot(querySnapshot => {
@@ -177,38 +179,6 @@ const HomeScreen = () => {
                    <Text style={{ ...FONTS.h1, color:'white' }}>
             {t('common:titleHome')}
           </Text>
-          <TouchableOpacity
-          onPress={()=> navigation.navigate('Transaction')}
-            style={{
-              height: 40,
-              width: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginLeft: '35%',
-              backgroundColor: 'white',
-              borderRadius: 20,
-            }}
-          >
-            <Image
-              source={icons.bell}
-              style={{
-                width: 20,
-                height: 20,
-                tintColor: COLORS.secondary,
-              }}
-            />
-            <View
-              style={{
-                position: 'absolute',
-                top: 5,
-                right: 5,
-                height: 10,
-                width: 10,
-                backgroundColor: COLORS.red,
-                borderRadius: 5,
-              }}
-            />
-          </TouchableOpacity>
         </View>
         <View style={{height: 200, width: 250 , alignSelf: 'center'}}/>
         </View>
@@ -227,17 +197,21 @@ const HomeScreen = () => {
           <Image style={{height: 40, width: 40, marginTop: 5, marginRight: '10%', alignSelf: 'center'}} source={icons.threecircle} />
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ color: 'white', margin: 15, ...FONTS.body2 }}>
+          <Text style={{ flex: 1 ,color: 'white', margin: 15, ...FONTS.body2 }}>
             {t('common:numAccount')}: {Data.getDataUser.bankID}
           </Text>
           <TouchableOpacity onPress={() => Clipboard.setString(Data.getDataUser.bankID)} style={{ alignSelf: 'center' }}>
-            <Image source={icons.copy} style={{ height: 20, width: 20, tintColor: 'blue'}}  />
+            <Image source={icons.copy} style={{ flex: 0,height: 20, width: 20, marginRight:20, tintColor: 'black'}}  />
           </TouchableOpacity>
         </View>
-
-        <Text style={{ color: 'white', margin: 20, ...FONTS.body2 }}>
-          {t('common:surplus')}: {HelpFunction.formatMoney(surplus)}
+        <View style={{flexDirection: 'row'}}>
+        <Text style={{ flex: 1,color: 'white', margin: 20, ...FONTS.body2 }}>
+          {t('common:surplus')}:  {see ? HelpFunction.formatMoney(surplus) : 'xxxxxxxxx VNĐ'}
         </Text>
+        <TouchableOpacity onPress={() => setSee(!see)} style={{ alignSelf: 'center' }}>
+            <Image source={see ? icons.eye : icons.disable_eye} style={{ flex: 0,height: 20, width: 20, marginRight:20, tintColor: 'black'}}  />
+        </TouchableOpacity>
+        </View>
       </View>;
   }
   const handleNavigateFeatures = (id) => {
@@ -257,10 +231,10 @@ const HomeScreen = () => {
       navigation.navigate('Bill');
     }
     else if (id === 6) {
-      navigation.navigate('Bill');
+      navigation.navigate('Payment');
     }
     else if (id === 7) {
-      navigation.navigate('Payment');
+      navigation.navigate('Transaction');
     }
     else {
       Alert.alert('Các tính năng khác đang phát triển');
@@ -322,92 +296,98 @@ const HomeScreen = () => {
     );
   }
 
-  function renderPromos() {
-    const HeaderComponent = () =>
+   function renderPromos() {
+    const HeaderComponent = () => (
       <View>
         <ImageBackground
-        resizeMode={'stretch'}
-        style={{height: '80%', flex: 1}}
-        source={{uri: background === '' ? null : background} }>
-        {renderHeader()}
-        {renderBanner()}
+          resizeMode={'stretch'}
+          style={{height: '80%', flex: 1}}
+          source={{uri: background === '' ? null : background}}>
+          {renderHeader()}
+          {renderBanner()}
         </ImageBackground>
         {renderFeatures()}
         {renderPromoHeader()}
-      </View>;
+      </View>
+    );
 
-    const renderPromoHeader = () =>
+    const renderPromoHeader = () => (
       <View
         style={{
           flexDirection: 'row',
           marginBottom: SIZES.padding,
           marginHorizontal: SIZES.padding * 3,
-        }}
-      >
-        <View style={{ flex: 1 }}>
-          <Text style={{ ...FONTS.h3 }}>Special Promos</Text>
+        }}>
+        <View style={{flex: 1}}>
+          <Text style={{...FONTS.h3}}>{t('common:service')}</Text>
         </View>
         <TouchableOpacity onPress={() => console.log('View All')}>
-          <Text style={{ color: COLORS.gray, ...FONTS.body4 }}>View All</Text>
+          <Text style={{color: COLORS.gray, ...FONTS.body4}}>{t('common:viewAll')}</Text>
         </TouchableOpacity>
-      </View>;
+      </View>
+    );
 
-    const renderItem = ({ item }) =>
+    const renderItem = ({item}) => (
       <TouchableOpacity
         style={{
           marginVertical: SIZES.base,
           width: SIZES.width / 2.5,
           marginHorizontal: SIZES.padding * 2,
         }}
-        onPress={() => console.log(item.title)}
-      >
+        onPress={() => Alert.alert('Tính năng này đang phát triển')}>
         <View
           style={{
             height: 80,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            backgroundColor: COLORS.primary,
-          }}
-        >
+            backgroundColor: 'white',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
           <Image
-            source={images.promoBanner}
+            source={{
+              uri: item.img,
+            }}
             resizeMode="cover"
             style={{
-              width: '100%',
-              height: '100%',
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
+              width: 80,
+              height: 80,
+            
             }}
           />
         </View>
 
         <View
           style={{
-            padding: SIZES.padding,
-            backgroundColor: COLORS.lightGray,
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
-          }}
-        >
-          <Text style={{ ...FONTS.h4 }}>
-            {item.title}
-          </Text>
-          <Text style={{ ...FONTS.body4 }}>
-            {item.description}
-          </Text>
+            paddingVertical: SIZES.padding,
+            backgroundColor: '#3CB371',
+            borderRadius:4,
+            marginTop: 3,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 100,
+         
+          }}>
+          <Text style={{...FONTS.h4,color: 'white'}}>{item.title}</Text>
+          <Text style={{...FONTS.body4,color: 'white'}}>{item.description}</Text>
         </View>
-      </TouchableOpacity>;
+      </TouchableOpacity>
+    );
 
     return (
       <FlatList
         ListHeaderComponent={HeaderComponent}
         numColumns={2}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
         data={specialPromos}
         keyExtractor={item => `${item.id}`}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={<View style={{ marginBottom: 80 }} />}
+        ListFooterComponent={<View style={{marginBottom: 80}} />}
       />
     );
   }

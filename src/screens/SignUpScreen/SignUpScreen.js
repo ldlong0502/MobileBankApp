@@ -17,11 +17,13 @@ const SignUpScreen = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
+  const [pin, setPin] = useState('');
 
   const [isUserName, setIsUserName] = useState('');
   const [isPhone, setISPhone] = useState('');
   const [isPassword, setIsPassword] = useState('');
   const [isPasswordRepeat, setIsPasswordRepeat] = useState('');
+  const [isPin, setIsPin] = useState('');
   const navigation = useNavigation();
   const { t } = useTranslation();
    // If null, no SMS has been sent
@@ -36,6 +38,7 @@ const SignUpScreen = () => {
         name: username,
         phone: phone,
         password: password,
+        pin: pin,
       };
     navigation.navigate('ConfirmPhone', {user: user, confirm: confirmation});
   }
@@ -66,6 +69,10 @@ const SignUpScreen = () => {
         return;
       }
       else {setIsPasswordRepeat('');}
+      if (isNaN(pin) || pin.length !== 4){
+        setIsPin('Pin có 4 chữ số');
+        return;
+      }
       signUpWithPhoneNumber(phone);
     }
     catch (err){
@@ -115,6 +122,13 @@ const SignUpScreen = () => {
           secureTextEntry
         />
         {isPasswordRepeat.length > 0 ? <Text style={{color: 'red', alignSelf: 'flex-start'}}>{isPasswordRepeat}</Text> : null}
+        <CustomInput
+          placeholder={t('common:inputPin')}
+          value={pin}
+          setValue={setPin}
+          secureTextEntry
+        />
+        {isPin.length > 0 ? <Text style={{color: 'red', alignSelf: 'flex-start'}}>{isPin}</Text> : null}
 
         <CustomButton text={t('common:signUp')} onPress={onRegisterPressed} />
 

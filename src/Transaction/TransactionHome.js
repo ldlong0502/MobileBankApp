@@ -26,33 +26,33 @@ export default function Transaction() {
   const [isAdd, setIsAdd] = useState(true);
   const [listDate, setListDate] = useState([]);
   const [listData, setListData] = useState([]);
-  const renderHeader = () => {
-    return (
-      <View
-        style={{
-          flex: 2,
-          backgroundColor: 'white',
-          paddingVertical: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderBottomColor: 'gray',
-          borderBottomWidth: 5,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            color: '#000000',
-            alignSelf: 'center',
-            ...FONTS.h3,
-          }}
-        >
-          {t('common:titleTransaction')}
-        </Text>
-      </View>
-    );
-  };
+  // const renderHeader = () => {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 2,
+  //         backgroundColor: 'white',
+  //         paddingVertical: 5,
+  //         flexDirection: 'row',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //         borderBottomColor: 'gray',
+  //         borderBottomWidth: 5,
+  //       }}
+  //     >
+  //       <Text
+  //         style={{
+  //           fontSize: 18,
+  //           color: '#000000',
+  //           alignSelf: 'center',
+  //           ...FONTS.h3,
+  //         }}
+  //       >
+  //         {t('common:titleTransaction')}
+  //       </Text>
+  //     </View>
+  //   );
+  // };
   const renderButton = () => {
     return (
       <View
@@ -85,7 +85,7 @@ export default function Transaction() {
               fontWeight: 'bold',
             }}
           >
-            EARNED
+            {t('common:in')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -108,7 +108,7 @@ export default function Transaction() {
               fontWeight: 'bold',
             }}
           >
-            SPENT
+            {t('common:out')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -129,7 +129,7 @@ export default function Transaction() {
       <View
         style={{
           flex: 30,
-          marginTop: 20,
+          marginTop: '20%',
           borderTopLeftRadius: 40,
           borderTopRightRadius: 40,
           borderWidth: 2,
@@ -190,7 +190,7 @@ export default function Transaction() {
                                 width: 30,
                                 alignSelf: 'center',
                               }}
-                              source={item1.Add ? icons.loss : icons.profits}
+                              source={item1.isAdd ? icons.loss : icons.profits}
                             />
                           </TouchableOpacity>
                         : null);
@@ -250,7 +250,7 @@ export default function Transaction() {
   }, [isFocused]);
   return (
     <View style={styles.container}>
-      {renderHeader()}
+
       {renderButton()}
       {renderStatistic()}
       {RenderTransaction()}

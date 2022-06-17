@@ -38,8 +38,8 @@ export default function Setting() {
   ];
   const AdvancedData = [
     { id: 3, title: t('common:smartOTP'), image: icons.otp },
-    { id: 4, title: t('common:phoneBook'), image: icons.phonebook },
-    { id: 5, title: t('common:paymentForm'), image: icons.bill },
+    { id: 4, title: t('common:privacy'), image: icons.privacy },
+    { id: 5, title: t('common:contact'), image: icons.contact },
     { id: 6, title: t('common:changePassword'), image: icons.password },
     { id: 7, title: t('common:otherSetting'), image: icons.setting },
   ];
@@ -119,7 +119,7 @@ export default function Setting() {
           navigation.navigate('SignIn');
           Alert.alert('Log out successfully!!!');
         }} style={styles.button}>
-          <Text style={{ color: 'green', fontWeight: 'bold', paddingLeft: 12 }}>
+          <Text style={{ flex:1, color: 'green', fontWeight: 'bold', marginLeft: '5%' }}>
             {t('common:exit')}
           </Text>
           <Image style={styles.image} source={icons.right} />
@@ -170,6 +170,7 @@ export default function Setting() {
               style={{
                 height: 30,
                 width: 30,
+                tintColor: '#32CD32',
               }}
               source={item.image}
             />
@@ -268,6 +269,7 @@ const styles = StyleSheet.create({
     width: 80,
     backgroundColor: '#CCFF99',
     alignItems: 'center',
+    justifyContent: 'center',
     marginLeft: 270,
     marginTop: 10,
     borderRadius: 20,
@@ -277,7 +279,8 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     alignItems: 'center',
-    marginLeft: '20%',
+    marginRight: '10%',
+    flex: 0,
   },
   cardContainer: {
     flexDirection: 'column',

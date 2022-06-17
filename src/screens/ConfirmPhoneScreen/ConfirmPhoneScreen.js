@@ -20,6 +20,7 @@ const ConfirmPhoneScreen = (props) => {
       for (var  i = 0; i < 10; i++){
         bankID += (Math.floor(Math.random() * 10 + 1)).toString();
       }
+      bankID = bankID.substring(0,9);
       Data.getListUser().forEach(item => {
       if (item.bankID === bankID) {
         flag = true;
@@ -33,13 +34,16 @@ const ConfirmPhoneScreen = (props) => {
     try {
       await confirm.confirm(code);
       await firestore().collection('users').doc(auth().currentUser.uid).set({
-        avatar: 'https://cdn-icons.flaticon.com/png/512/4122/premium/4122901.png?token=exp=1654620077~hmac=8f2a1b8edca3c77707dd4e8b2eb54d1c',
+        avatar: 'https://cdn-icons.flaticon.com/png/512/924/premium/924915.png?token=exp=1655486595~hmac=d22bfc8f1f749ffc30c9dee7c41d19d3',
         background: 'https://firebasestorage.googleapis.com/v0/b/bankapp-4377c.appspot.com/o/background%2Fbg1.jpg?alt=media&token=bf96715f-5073-4761-a410-83c94b052705',
         name: user.name,
         phone: user.phone,
         surplus: 5000000,
         password: user.password,
         bankID: AutoCreateBankID(),
+        list: [],
+        pin: user.pin,
+        banktype: 1,
       });
       Alert.alert('Đăng ký thành công! Vui lòng đăng nhập lại');
       navigation.navigate('SignIn');

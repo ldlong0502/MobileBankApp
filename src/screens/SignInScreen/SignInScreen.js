@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsFocused } from '@react-navigation/native';
 import { icons } from '../../../constants';
-
+import { LogBox } from 'react-native';
 const SignInScreen = () => {
   const [phone, setPhone] = useState();
   const [password, setPassword] = useState('');
@@ -82,6 +82,10 @@ const SignInScreen = () => {
     if (isFocused){
     loadListUser();
     }
+    LogBox.ignoreLogs([
+      'ViewPropTypes will be removed',
+      'ColorPropType will be removed',
+    ]);
     console.log(Data.getListUser());
   }, [isFocused]);
   return (
