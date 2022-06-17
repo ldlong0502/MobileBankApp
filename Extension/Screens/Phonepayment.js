@@ -116,10 +116,6 @@ function HomeScreen(){
         Data.getDataUser.surplus = bl - value;
 
 
-        // let body1 = 'Tài khoản ' + Data.getDataUser.bankID + ' tại LLTB đã thanh toán thuê bao trả trước ' + value + ' VNĐ vào lúc ' + tt + ' Số dư: ' + Data.getDataUser.surplus + ' VNĐ';
-
-
-        // NotificationService.sendSingleDeviceNotification({title:'Thanh toán',body:body1, token:Data.getTokenDeviceID});
 
         Alert.alert(
             'Thanh toán thành công',
@@ -380,11 +376,6 @@ function BuycardScreen(){
 
         Data.getDataUser.surplus = bl1 - value;
 
-
-        // let body1 = 'Tài khoản ' + Data.getDataUser.bankID + ' tại LLTB đã thanh toán cho mã thẻ điện thoại có mệnh giá ' + value + ' VNĐ vào lúc ' + tt + ' Số dư: ' + Data.getDataUser.surplus + ' VNĐ';
-
-
-        // NotificationService.sendSingleDeviceNotification({title:'Thanh toán',body:body1, token:Data.getTokenDeviceID});
         getcard();
 
 

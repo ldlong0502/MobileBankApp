@@ -17,21 +17,31 @@ const formatTime = value => {
   const time = list[1].split(':');
   return new Date(date[2], date[1] - 1, date[0], time[0], time[1], time[2]);
 };
+const checkInclude = item => {
+  let flag = false;
+  Data.getTransactionHistory().forEach(element => {
+    if (element.time === item.time)
+      {
+        flag = true;
+      }
+  });
+  return flag;
+};
 const getListTransaction = async () => {
   Data.getTransactionHistory().splice(0, Data.getTransactionHistory().length);
-     console.log('tuiii');
-  firestore()
+  await firestore()
     .collection('historyTransaction')
     .where('userId', '==', Data.getDataUser.id)
     .onSnapshot(querySnapshot => {
-      console.log(querySnapshot.docChanges().length + 'Hello');
+      console.log(querySnapshot.docChanges().length + 'HelloBBB');
       querySnapshot.docChanges().forEach(change => {
         if (change.type === 'added') {
           console.log('New transaction555: ', change.doc.data());
           if (
-            formatTime(change.doc.data().time).getFullYear() ===
-            new Date().getFullYear()
+            (formatTime(change.doc.data().time).getFullYear() ===
+            new Date().getFullYear()) && (checkInclude(change.doc.data()) === false)
           ) {
+            console.log(checkInclude(change.doc.data()));
             Data.setTransactionHistory(change.doc.data());
             if (change.doc.data().isNotification === true) { return; }
             if (change.doc.data().isAdd === true) {
@@ -42,7 +52,7 @@ const getListTransaction = async () => {
                 item.fromBankId.substring(0,5) + 'xxxx\n' + 'Nội dung giao dịch: ' + item.content,
                 token:Data.getTokenDeviceID,
               };
-              NotificationService.sendSingleDeviceNotification(data);
+               NotificationService.sendSingleDeviceNotification(data);
               firestore()
                  .collection('historyTransaction')
                  .doc(change.doc.id)
@@ -65,7 +75,7 @@ const getListTransaction = async () => {
                 body: body,
                 token:Data.getTokenDeviceID,
               };
-              NotificationService.sendSingleDeviceNotification(data);
+               NotificationService.sendSingleDeviceNotification(data);
                firestore()
                  .collection('historyTransaction')
                  .doc(change.doc.id)
