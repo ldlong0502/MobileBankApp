@@ -38,7 +38,9 @@ const profile = require('../assets/icons/transparency.png');
 const logoBank = require('../assets/icons/logoBank.png');
 const copy = require('../assets/icons/copy.png');
 const qr = require('../assets/icons/qr.png');
+const bank = require('../assets/icons/bank.png');
 const threecircle = require('../assets/icons/threecircle.png');
+const different = require('../assets/icons/different.png');
 export default {
   profile,
   avatar,
@@ -73,6 +75,7 @@ export default {
   reload,
   scan,
   send,
+  different,
   user,
   wallet,
   payment,
@@ -81,4 +84,5 @@ export default {
   copy,
   qr,
   threecircle,
+  bank,
 };

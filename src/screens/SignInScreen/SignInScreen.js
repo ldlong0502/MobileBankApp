@@ -89,7 +89,7 @@ const SignInScreen = () => {
       <View style={styles.root}>
         <Image
           source={icons.logoBank}
-          style={[styles.logo, {height: height * 0.3}]}
+          style={[styles.logo, {height: height * 1}]}
           resizeMode="contain"
         />
 

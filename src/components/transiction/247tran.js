@@ -9,11 +9,13 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {Picker} from '@react-native-picker/picker';
 import firestore from '@react-native-firebase/firestore';
 import {t} from 'i18next';
+import { ScrollView } from 'react-native-gesture-handler';
 class InBank extends React.Component {
   constructor(props) {
     super(props);
@@ -81,7 +83,7 @@ this.setState({banktype:pr1});
 
   loadTargetUser = async () => {
     console.log(this.state);
-    let flat=0;
+    let flat = 0;
     await firestore()
       .collection('users')
       .get()
@@ -90,9 +92,9 @@ this.setState({banktype:pr1});
           console.log('lz:',documentSnapshot._data.banktype,this.state.banktype);
           if (
             documentSnapshot._data.bankID === this.state.BANRC &&
-            documentSnapshot._data.banktype ===parseInt(this.state.banktype)
+            documentSnapshot._data.banktype === parseInt(this.state.banktype)
           ) {
-            flat=1;
+            flat = 1;
             this.setState({
               idrc: documentSnapshot.id,
               rcName: documentSnapshot._data.name,
@@ -102,114 +104,84 @@ this.setState({banktype:pr1});
 
         });
       });
-      if(flat ===0){
+      if (flat === 0){
         this.setState({
           idrc: '',
               rcName: '',
-              surplusrc: 0
-        })
-       
+              surplusrc: 0,
+        });
+
       }
   };
 
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.smallContainer1}>
-          <Text style={styles.bigtext}>Chuyển từ</Text>
+    return <KeyboardAvoidingView>
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.smallContainer1}>
+              <Text style={styles.bigtext}>Chuyển từ</Text>
 
-          <Text style={styles.smtext}>{this.state.username}</Text>
-          <Text style={styles.smtext}> {this.state.BANS}</Text>
-          <Text style={styles.smtext}> {this.state.surplus} VND</Text>
-        </View>
-        <View style={styles.smallContainer2}>
-          <Text style={styles.bigtext}>Chuyển tới</Text>
-          <TextInput
-            value={this.state.BANRC}
-            style={styles.inputtext}
-            onBlur={this.love}
-            onChangeText={e => {
-              this.setState({BANRC: e});
-            }}
-            placeholder="số tài khoản ..."></TextInput>
-          <Picker
-            selectedValue={this.state.banktype}
-            style={{height: 50, width: '100%'}}
-            
-            onValueChange={(itemValue, itemIndex) =>this.newlove(itemValue, itemIndex)
-            
-            }>
-               <Picker.Item
-              label="Chọn Ngân Hàng"
-              value='0'
-            />
-            <Picker.Item
-              label="Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)"
-              value='1'
-            />
-            <Picker.Item
-              label="Vietinbank (Ngân hàng Thương mại cổ phần Công Thương Việt Nam)"
-              value="2"
-            />
-            <Picker.Item
-              label="Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank) "
-              value="3"
-            />
-          </Picker>
+              <Text style={styles.smtext}>
+                {this.state.username}
+              </Text>
+              <Text style={styles.smtext}>
+                {' '}{this.state.BANS}
+              </Text>
+              <Text style={styles.smtext}>
+                {' '}{this.state.surplus} VND
+              </Text>
+            </View>
+            <View style={styles.smallContainer2}>
+              <Text style={styles.bigtext}>Chuyển tới</Text>
+              <TextInput value={this.state.BANRC} style={styles.inputtext} onBlur={this.love} onChangeText={e => {
+                  this.setState({ BANRC: e });
+                }} placeholder="số tài khoản ..." />
+              <Picker selectedValue={this.state.banktype} style={{ height: 50, width: '100%' }} onValueChange={(itemValue, itemIndex) => this.newlove(itemValue, itemIndex)}>
+                <Picker.Item label="Chọn Ngân Hàng" value="0" />
+                <Picker.Item label="Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)" value="1" />
+                <Picker.Item label="Vietinbank (Ngân hàng Thương mại cổ phần Công Thương Việt Nam)" value="2" />
+                <Picker.Item label="Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank) " value="3" />
+              </Picker>
 
-          <Text style={styles.smtext}>Tên người thụ hưởng </Text>
-          <Text style={styles.smtext}>{this.state.rcName}</Text>
-        </View>
+              <Text style={styles.smtext}>Tên người thụ hưởng </Text>
+              <Text style={styles.smtext}>
+                {this.state.rcName}
+              </Text>
+            </View>
 
-        <View style={styles.smallContainer3}>
-          <Text style={styles.bigtext}>Thông tin giao dịch</Text>
+            <View style={styles.smallContainer3}>
+              <Text style={styles.bigtext}>Thông tin giao dịch</Text>
 
-          <TextInput
-            style={styles.inputtext}
-            onChangeText={e => {
-              this.setState({money: e});
-            }}
-            
-            value={this.money}
-            keyboardType="numeric"
-            placeholder="Số tiền    ...    vnđ"></TextInput>
-          <TextInput
-            onChangeText={e => {
-              this.setState({message: e});
-            }}
-            value={this.message}
-            style={styles.inputtext}
-            placeholder="Nội dung chuyển tiền"></TextInput>
-        </View>
-        <View style={styles.reallySmallContainer}>
-          <Text style={styles.smtext}>
-            Ngày chuyển : Hôm nay, {this.state.day.getDate()}/
-            {this.state.day.getMonth()}/{this.state.day.getFullYear()}
-          </Text>
-        </View>
+              <TextInput style={styles.inputtext} onChangeText={e => {
+                  this.setState({ money: e });
+                }} value={this.money} keyboardType="numeric" placeholder="Số tiền    ...    vnđ" />
+              <TextInput onChangeText={e => {
+                  this.setState({ message: e });
+                }} value={this.message} style={styles.inputtext} placeholder="Nội dung chuyển tiền" />
+            </View>
+            <View style={styles.reallySmallContainer}>
+              <Text style={styles.smtext}>
+                Ngày chuyển : Hôm nay, {this.state.day.getDate()}/
+                {this.state.day.getMonth()}/{this.state.day.getFullYear()}
+              </Text>
+            </View>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            if (parseInt(this.state.money) < this.state.surplus + 50000) {
-              alert(' số dư  không đủ ');
-              this.setState({money: 0});
-            } else {
-              this.props.navigation.navigate('pin', {package: this.state});
-            }
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              textTransform: 'capitalize',
-              fontSize: 16,
-            }}>
-            {' '}
-            tiếp tục
-          </Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                if (parseInt(this.state.money) < this.state.surplus + 50000) {
+                  alert(' số dư  không đủ ');
+                  this.setState({ money: 0 });
+                } else {
+                  this.props.navigation.navigate('pin', {
+                    package: this.state,
+                  });
+                }
+              }}>
+              <Text style={{ color: 'white', textTransform: 'capitalize', fontSize: 16 }}>
+                {' '}tiếp tục
+              </Text>
+            </TouchableOpacity>
 
-        {/* <TouchableOpacity style={styles.button} onPress={this.MakeaTransaction}>
+            {/* <TouchableOpacity style={styles.button} onPress={this.MakeaTransaction}>
           <Text
             style={{
               color: 'white',
@@ -220,8 +192,9 @@ this.setState({banktype:pr1});
             chuyển tiền
           </Text>
         </TouchableOpacity> */}
-      </View>
-    );
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>;
   }
 }
 const styles = StyleSheet.create({
@@ -267,7 +240,7 @@ const styles = StyleSheet.create({
   button: {
     display: 'flex',
     margin: 4,
-    backgroundColor: '#A54175',
+    backgroundColor: '#43CD80',
     height: 50,
     width: '80%',
     padding: 10,
