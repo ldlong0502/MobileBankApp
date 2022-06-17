@@ -96,16 +96,29 @@ function HomeScreen(){
         console.log(tt);
 
         await firestore().collection('users').doc(Data.getDataUser.id).update({surplus: bl - value});
-        await firestore().collection('historyTransaction').doc().set({isAdd:false,money:value,time:tt,title:'Thanh toán thuê bao trả trước',toID:'',userId:Data.getDataUser.id});
+        await firestore().collection('historyTransaction').doc().set(
+            {
+            isAdd:false,
+            money:value,
+            time:tt,
+            title:'Thanh toán thuê bao trả trước',
+            toBankID:'',
+            fromBankID: '',
+            userId:Data.getDataUser.id,
+            content: 'Nạp tiền cho SĐT: ' + pn + '\n Thời điểm giao dịch: ' + tt,
+            idService: 2,
+            }
+
+            );
 
 
         Data.getDataUser.surplus = bl - value;
 
 
-        let body1 = 'Tài khoản ' + Data.getDataUser.bankID + ' tại LLTB đã thanh toán thuê bao trả trước ' + value + ' VNĐ vào lúc ' + tt + ' Số dư: ' + Data.getDataUser.surplus + ' VNĐ';
+        // let body1 = 'Tài khoản ' + Data.getDataUser.bankID + ' tại LLTB đã thanh toán thuê bao trả trước ' + value + ' VNĐ vào lúc ' + tt + ' Số dư: ' + Data.getDataUser.surplus + ' VNĐ';
 
 
-        NotificationService.sendSingleDeviceNotification({title:'Thanh toán',body:body1, token:Data.getTokenDeviceID});
+        // NotificationService.sendSingleDeviceNotification({title:'Thanh toán',body:body1, token:Data.getTokenDeviceID});
 
         Alert.alert(
             'Thanh toán thành công',
@@ -348,16 +361,28 @@ function BuycardScreen(){
         console.log(tt + 'Long');
         await firestore().collection('users').doc(Data.getDataUser.id).update({surplus: bl1 - value});
         console.log(tt + 'Long');
-        await firestore().collection('historyTransaction').doc().set({isAdd:false,money:value,time:tt,title:'Thanh toán thẻ điện thoại',toID:'',userId:Data.getDataUser.id});
+        await firestore().collection('historyTransaction').doc().set(
+            {
+                isAdd:false,
+                money:value,
+                time:tt,
+                title:'Thanh toán thẻ điện thoại',
+                toBankID:'',
+                fromBankID: '',
+                userId:Data.getDataUser.id,
+                content: 'Bạn vừa thanh toán thành công cho mã thẻ điện thoại có mệnh giá ' + HelpFunction.formatMoney(value) + '\n Thời điểm giao dịch: ' + tt,
+                idService: 2,
+            }
+            );
 
 
         Data.getDataUser.surplus = bl1 - value;
 
 
-        let body1 = 'Tài khoản ' + Data.getDataUser.bankID + ' tại LLTB đã thanh toán cho mã thẻ điện thoại có mệnh giá ' + value + ' VNĐ vào lúc ' + tt + ' Số dư: ' + Data.getDataUser.surplus + ' VNĐ';
+        // let body1 = 'Tài khoản ' + Data.getDataUser.bankID + ' tại LLTB đã thanh toán cho mã thẻ điện thoại có mệnh giá ' + value + ' VNĐ vào lúc ' + tt + ' Số dư: ' + Data.getDataUser.surplus + ' VNĐ';
 
 
-        NotificationService.sendSingleDeviceNotification({title:'Thanh toán',body:body1, token:Data.getTokenDeviceID});
+        // NotificationService.sendSingleDeviceNotification({title:'Thanh toán',body:body1, token:Data.getTokenDeviceID});
         getcard();
 
 

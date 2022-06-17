@@ -1,5 +1,6 @@
 import Data from './src/Data/Data';
 import firestore from '@react-native-firebase/firestore';
+import NotificationService from './NotificationService';
 
 const formatMoney = value => {
   return (
@@ -31,13 +32,36 @@ const getListTransaction = async () => {
             new Date().getFullYear()
           ) {
             Data.setTransactionHistory(change.doc.data());
+
+            if (change.doc.data().isAdd === true) {
+              var item = change.doc.data();
+              let data = {
+                title: item.title,
+                body: 'Tài khoản của bạn vừa được + ' + formatMoney(item.money) + ' từ STK: ' +
+                item.fromBankId.substring(0,5) + 'xxxx\n' + 'Nội dung giao dịch: ' + item.content,
+                token:Data.getTokenDeviceID,
+              };
+              NotificationService.sendSingleDeviceNotification(data);
+              return;
+            }
+            else {
+              var item = change.doc.data();
+              let body = '';
+              if (item.idService === 1) {
+                body = 'Tài khoản của bạn vừa bị - ' + formatMoney(item.money) + ' do chuyển tiền đến STK: ' +
+                item.toBankId.substring(0,5) + 'xxxx với nội dung: '  + item.content;
+              } else {
+                body = 'Tài khoản của bạn vừa bị - ' + formatMoney(item.money) +  ' do sử dụng dịch vụ tại LTBB\nNội dung: '  + item.content;
+              }
+              let data = {
+                title: item.title,
+                body: body,
+                token:Data.getTokenDeviceID,
+              };
+              NotificationService.sendSingleDeviceNotification(data);
+              return;
+            }
           }
-        }
-        if (change.type === 'modified') {
-          console.log('Modified user: ', change.doc.data());
-        }
-        if (change.type === 'removed') {
-          console.log('Removed user: ', change.doc.data());
         }
       });
     });

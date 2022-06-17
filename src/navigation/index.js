@@ -15,12 +15,15 @@ import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../Settings/Setting';
 import Transaction from '../Transaction/TransactionHome.js';
 import PhonePayment from '../../Extension/Screens/Phonepayment';
+import Bill from '../../Extension/Screens/Bill';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {icons} from '../../constants';
 import { useTranslation } from 'react-i18next';
 import Data from '../Data/Data';
 import firestore from '@react-native-firebase/firestore';
 import HelpFunction from '../../HelpFunction';
+import Pinui from '../components/transiction/pinui';
+import Scan from '../components/transiction/qrcode';
 const Tab = createBottomTabNavigator(
 
 );
@@ -47,16 +50,42 @@ const Navigation = () => {
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
         <Stack.Screen
-          name="tai"
-          options={{title: 'VCB digital'}}
+          name="transfer"
+          options={{
+            headerShown: true,
+            title: 'Chuyển tiền',
+            headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
           component={Table}
+        />
+        <Stack.Screen
+          name="Scan"
+          options={{
+            headerShown: true,
+            title: 'Scan',
+            headerStyle: {
+              backgroundColor: '#A54175',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+          component={Scan}
         />
         <Stack.Screen
           name="InBank"
           options={{
-            title: 'Chuyển tiền trong VCB',
+            headerShown:true,
+            title: 'Chuyển tiền nội bộ LTBB',
             headerStyle: {
-              backgroundColor: '#72B33F',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -65,12 +94,28 @@ const Navigation = () => {
           }}
           component={InBank}
         />
+         <Stack.Screen
+          name="pin"
+          options={{
+            title: 'Pin Confirm',
+            headerShown:true,
+            headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+          component={Pinui}
+        />
         <Stack.Screen
           name="FastTransition"
           options={{
+            headerShown:true,
             title: 'Chuyển tiền nhanh 24/7 ngoài VCB',
             headerStyle: {
-              backgroundColor: '#72B33F',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -82,9 +127,10 @@ const Navigation = () => {
         <Stack.Screen
           name="ConfirmScreen"
           options={{
+            headerShown:true,
             title: 'Xác nhận thông tin',
             headerStyle: {
-              backgroundColor: '#72B33F',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -98,6 +144,7 @@ const Navigation = () => {
         <Stack.Screen name="Transaction" component={Transaction} />
         <Stack.Screen name="Payment" component={PhonePayment} />
         <Stack.Screen name="Settings" component={SettingsScreen}/>
+        <Stack.Screen name="Bill" component={Bill}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

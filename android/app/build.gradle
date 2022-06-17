@@ -137,6 +137,7 @@ android {
 
 
     defaultConfig {
+        missingDimensionStrategy 'react-native-camera', 'general'
         applicationId "com.mobilebankapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion 31

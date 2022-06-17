@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 export default function Bill(){
 
-    
     return (
         <View>
             <Text style={{marginTop:10,fontSize:40,marginBottom:50,alignSelf:'center'}}>Thanh toán hóa đơn</Text>

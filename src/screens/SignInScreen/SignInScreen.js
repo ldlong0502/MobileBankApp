@@ -62,7 +62,8 @@ const SignInScreen = () => {
   Data.getListUser().splice(0,Data.getListUser().length);
   await firestore().collection('users').get().then(snapshot => {
     snapshot.forEach(doc => {
-      Data.setListUser({id: doc.id,
+      Data.setListUser({
+        id: doc.id,
         phone: doc.data().phone,
         password: doc.data().password,
         avatar: doc.data().avatar,
@@ -70,7 +71,7 @@ const SignInScreen = () => {
         surplus: doc.data().surplus,
         name: doc.data().name,
         bankID: doc.data().bankID,
-
+        pin: doc.data().pin,
       });
     });
   });

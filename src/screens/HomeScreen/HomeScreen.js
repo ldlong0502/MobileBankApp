@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   LogBox,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import { COLORS, SIZES, FONTS, icons, images } from '../../../constants';
 import { useNavigation } from '@react-navigation/native';
@@ -121,6 +122,7 @@ const HomeScreen = () => {
      firestore().collection('users')
     .where('phone', '==', Data.getDataUser.phone)
     .onSnapshot(querySnapshot => {
+    console.log(querySnapshot.docChanges().length);
     querySnapshot.docChanges().forEach(change => {
 
       if (change.type === 'added') {
@@ -138,13 +140,13 @@ const HomeScreen = () => {
         console.log('Modified user: ', change.doc.data());
         let body = '';
         if (change.doc.data().surplus > Data.getDataUser.surplus){
-          body = 'Tài khoản' + Data.getDataUser.bankID + ' tại LLTB +' +
+          body = 'Tài khoản ' + Data.getDataUser.bankID + ' tại LLTB +' +
           (change.doc.data().surplus -  Data.getDataUser.surplus) +
           ' VNĐ vào lúc ' + HelpFunction.getCurrentDate() +
           '. Số dư: ' + change.doc.data().surplus + ' VNĐ';
         }
         else {
-          body = 'Tài khoản' + Data.getDataUser.bankID + ' tại LLTB -' +
+          body = 'Tài khoản ' + Data.getDataUser.bankID + ' tại LLTB ' +
           (change.doc.data().surplus -  Data.getDataUser.surplus) +
           ' VNĐ vào lúc ' + HelpFunction.getCurrentDate() +
           '. Số dư: ' + change.doc.data().surplus + ' VNĐ';
@@ -238,7 +240,32 @@ const HomeScreen = () => {
         </Text>
       </View>;
   }
-
+  const handleNavigateFeatures = (id) => {
+    if (id === 1) {
+      navigation.navigate('Payment');
+    }
+    else if (id === 2) {
+      navigation.navigate('transfer');
+    }
+     else if (id === 3) {
+      navigation.navigate('Scan');
+    }
+    else if (id === 4) {
+      navigation.navigate('Scan');
+    }
+    else if (id === 5) {
+      navigation.navigate('Bill');
+    }
+    else if (id === 6) {
+      navigation.navigate('Bill');
+    }
+    else if (id === 7) {
+      navigation.navigate('Payment');
+    }
+    else {
+      Alert.alert('Các tính năng khác đang phát triển');
+    }
+  };
   function renderFeatures() {
     const Header = () =>
       <View style={{ marginBottom: SIZES.padding * 2, paddingHorizontal: SIZES.padding * 3 }}>
@@ -254,10 +281,7 @@ const HomeScreen = () => {
           alignItems: 'center',
           marginHorizontal: SIZES.padding * 2,
         }}
-        onPress={() => {
-          console.log(item.description);
-          navigation.navigate('tai');
-        }}
+        onPress={() => handleNavigateFeatures(item.id)}
       >
         <View
           style={{
