@@ -4,9 +4,9 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,Alert,
-
+  TouchableOpacity,Alert
 } from 'react-native';
+import Data from '../../Data/Data';
 import firestore from '@react-native-firebase/firestore';
 import Pin from 'react-native-pin-code-ui';
 import { COLORS, FONTS } from '../../../constants';
@@ -30,10 +30,10 @@ export default class Pinui extends Component {
       surplusrc: this.props.route.params.package.surplusrc,
       pin: this.props.route.params.package.pin,
       ids: this.props.route.params.package.ids,
+      banktype: this.props.route.params.package.banktype,
       transactionFee: 1000,
     };
-    this.checkPin = this.checkPin.bind(this);
-
+    this.checkPin = this.checkPin.bind(this); 
   }
 
   async checkPin() {
@@ -53,7 +53,16 @@ export default class Pinui extends Component {
         .collection('users')
         .doc(this.state.ids)
         .update({
-          surplus: this.state.surplus - parseInt(this.state.money) - this.state.transactionFee,
+          surplus: this.state.surplus - parseInt(this.state.money)-this.state.transactionFee,
+        })
+        .then(() => {
+          console.log('Users updated!');
+        });
+        firestore()
+        .collection('users')
+        .doc(this.state.ids)
+        .update({
+          list: [...Data.getDataUser.list].concat(this.state.idrc),
         })
         .then(() => {
           console.log('Users updated!');
@@ -91,7 +100,6 @@ export default class Pinui extends Component {
         },
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
-
       this.props.navigation.navigate('ConfirmScreen', {data:this.state});
     } else {
       alert('wrong pin');
@@ -115,6 +123,7 @@ export default class Pinui extends Component {
           styleButton={{backgroundColor: 'red'}}
         />
         <View style={{justifyContent: 'center', marginTop: '10%'}}>
+
           <TouchableOpacity
             onPress={() => {
               this.checkPin();

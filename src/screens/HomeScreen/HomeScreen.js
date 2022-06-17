@@ -282,6 +282,7 @@ const HomeScreen = () => {
           marginHorizontal: SIZES.padding * 2,
         }}
         onPress={() => handleNavigateFeatures(item.id)}
+
       >
         <View
           style={{

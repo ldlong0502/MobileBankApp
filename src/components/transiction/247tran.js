@@ -9,13 +9,9 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  FlatList,
-  ScrollView,
-  Dimensions,
-  Alert,
-  Button,
 } from 'react-native';
 
+import {Picker} from '@react-native-picker/picker';
 import firestore from '@react-native-firebase/firestore';
 import {t} from 'i18next';
 class InBank extends React.Component {
@@ -23,7 +19,7 @@ class InBank extends React.Component {
     super(props);
     this.state = {
       day: new Date(),
-      transactionFee:1000,
+      transactionFee: 1000,
       username: Data.getDataUser.name,
       rcName: '',
       idrc: '',
@@ -35,14 +31,23 @@ class InBank extends React.Component {
       surplusrc: 0,
       pin: Data.getDataUser.pin,
       phone: Data.getDataUser.phone,
-      ids:Data.getDataUser.id,
+      ids: Data.getDataUser.id,
+      banktype: '0',
     };
 
     this.loadTargetUser = this.loadTargetUser.bind(this);
     this.MakeaTransaction = this.MakeaTransaction.bind(this);
     this.otp = this.otp.bind(this);
     this.love = this.love.bind(this);
+    this.newlove = this.newlove.bind(this);
     // this.comfirmphone = this.comfirmphone.bind(this);
+  }
+  newlove(pr1,pr2){
+this.setState({banktype:pr1});
+    this.loadTargetUser();
+    // if(this.state.rcName==='')
+    // {alert("không tìm thấy tài khoản")}
+
   }
   love() {
     this.loadTargetUser();
@@ -75,20 +80,36 @@ class InBank extends React.Component {
   }
 
   loadTargetUser = async () => {
+    console.log(this.state);
+    let flat=0;
     await firestore()
       .collection('users')
       .get()
       .then(collectionSnapshot => {
         collectionSnapshot.forEach(documentSnapshot => {
-          if (documentSnapshot._data.bankID === this.state.BANRC) {
+          console.log('lz:',documentSnapshot._data.banktype,this.state.banktype);
+          if (
+            documentSnapshot._data.bankID === this.state.BANRC &&
+            documentSnapshot._data.banktype ===parseInt(this.state.banktype)
+          ) {
+            flat=1;
             this.setState({
               idrc: documentSnapshot.id,
               rcName: documentSnapshot._data.name,
               surplusrc: documentSnapshot._data.surplus,
             });
           }
+
         });
       });
+      if(flat ===0){
+        this.setState({
+          idrc: '',
+              rcName: '',
+              surplusrc: 0
+        })
+       
+      }
   };
 
   render() {
@@ -111,7 +132,31 @@ class InBank extends React.Component {
               this.setState({BANRC: e});
             }}
             placeholder="số tài khoản ..."></TextInput>
-           
+          <Picker
+            selectedValue={this.state.banktype}
+            style={{height: 50, width: '100%'}}
+            
+            onValueChange={(itemValue, itemIndex) =>this.newlove(itemValue, itemIndex)
+            
+            }>
+               <Picker.Item
+              label="Chọn Ngân Hàng"
+              value='0'
+            />
+            <Picker.Item
+              label="Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)"
+              value='1'
+            />
+            <Picker.Item
+              label="Vietinbank (Ngân hàng Thương mại cổ phần Công Thương Việt Nam)"
+              value="2"
+            />
+            <Picker.Item
+              label="Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank) "
+              value="3"
+            />
+          </Picker>
+
           <Text style={styles.smtext}>Tên người thụ hưởng </Text>
           <Text style={styles.smtext}>{this.state.rcName}</Text>
         </View>
@@ -122,11 +167,11 @@ class InBank extends React.Component {
           <TextInput
             style={styles.inputtext}
             onChangeText={e => {
-             
               this.setState({money: e});
             }}
+            
             value={this.money}
-            keyboardType = 'numeric'
+            keyboardType="numeric"
             placeholder="Số tiền    ...    vnđ"></TextInput>
           <TextInput
             onChangeText={e => {
@@ -146,11 +191,12 @@ class InBank extends React.Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            if(parseInt(this.state.money)>this.state.surplus+50000){
+            if (parseInt(this.state.money) < this.state.surplus + 50000) {
               alert(' số dư  không đủ ');
-              this.setState({money: 0})
-            }else{
-            this.props.navigation.navigate('pin', {package: this.state});}
+              this.setState({money: 0});
+            } else {
+              this.props.navigation.navigate('pin', {package: this.state});
+            }
           }}>
           <Text
             style={{
@@ -190,7 +236,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
 
-    margin: 6,
     width: '100%',
     height: '18%',
     borderRadius: 20,
@@ -200,7 +245,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 6,
     width: '100%',
-    height: '23%',
+    height: '32%',
     borderRadius: 20,
   },
   smallContainer3: {

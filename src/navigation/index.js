@@ -17,38 +17,75 @@ import Transaction from '../Transaction/TransactionHome.js';
 import PhonePayment from '../../Extension/Screens/Phonepayment';
 import Bill from '../../Extension/Screens/Bill';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Scan from '../components/transiction/qrcode';
 import {icons} from '../../constants';
 import { useTranslation } from 'react-i18next';
 import Data from '../Data/Data';
+import Pinui from '../components/transiction/pinui';
 import firestore from '@react-native-firebase/firestore';
 import HelpFunction from '../../HelpFunction';
-import Pinui from '../components/transiction/pinui';
-import Scan from '../components/transiction/qrcode';
 const Tab = createBottomTabNavigator(
 
 );
 
 function MyTabs() {
   const {t} = useTranslation();
-  return <Tab.Navigator screenOptions={{ headerShown: false}} >
-        <Tab.Screen  name="Home" component={HomeScreen} options={{tabBarIcon: () => <Image source={icons.home} style={{ height: 30, width: 30 }} />, title: t('common:home')}} />
-        <Tab.Screen name="Payment" component={PhonePayment} options={{ tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 }} />, title: t('common:payment') }} />
-        <Tab.Screen name="Transaction" component={Transaction} options={{ tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 }} />, title: t('common:transaction') }} />
-        <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarIcon: () => <Image source={icons.setting} style={{ height: 30, width: 30 }} />, title: t('common:setting') }} />
-      </Tab.Navigator>;
-
+  return (
+    <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: () => (
+            <Image source={icons.home} style={{height: 30, width: 30}} />
+          ),
+          title: t('common:home'),
+        }}
+      />
+      <Tab.Screen
+        name="Payment"
+        component={PhonePayment}
+        options={{
+          tabBarIcon: () => (
+            <Image source={icons.payment} style={{height: 30, width: 30}} />
+          ),
+          title: t('common:payment'),
+        }}
+      />
+      <Tab.Screen
+        name="Transaction"
+        component={Transaction}
+        options={{
+          tabBarIcon: () => (
+            <Image source={icons.transaction} style={{height: 30, width: 30}} />
+          ),
+          title: t('common:transfer'),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          tabBarIcon: () => (
+            <Image source={icons.setting} style={{height: 30, width: 30}} />
+          ),
+          title: t('common:setting'),
+        }}
+      />
+    </Tab.Navigator>
+  );
 }
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="ConfirmPhone" component={ConfirmPhoneScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-        <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
+      <Stack.Navigator >
+        <Stack.Screen  screenOptions={{headerShown:false}} name="SignIn" component={SignInScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="SignUp" component={SignUpScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="ConfirmPhone" component={ConfirmPhoneScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen  screenOptions={{headerShown:false}} name="NewPassword" component={NewPasswordScreen} />
         <Stack.Screen
           name="transfer"
           options={{

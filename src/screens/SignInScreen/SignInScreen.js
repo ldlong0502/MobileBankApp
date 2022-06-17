@@ -20,6 +20,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsFocused } from '@react-navigation/native';
 import { icons } from '../../../constants';
+
 const SignInScreen = () => {
   const [phone, setPhone] = useState();
   const [password, setPassword] = useState('');
@@ -40,15 +41,14 @@ const SignInScreen = () => {
     return flag;
   };
   const onSignInPressed = () => {
-   console.log(Data.getListUser());
-   console.log(checkSignIn());
-  if (!checkSignIn()) {
-    Alert.alert('SĐT hoặc mật khẩu không hợp lệ');
-    return;
-  }
-  Alert.alert('Đăng nhập thành công!Chào mừng quý khách');
-  navigation.navigate('BottomTabs');
-
+    console.log(Data.getListUser());
+    console.log(checkSignIn());
+    if (!checkSignIn()) {
+      Alert.alert('SĐT hoặc mật khẩu không hợp lệ');
+      return;
+    }
+    Alert.alert('Đăng nhập thành công!Chào mừng quý khách');
+    navigation.navigate('BottomTabs');
   };
 
   const onForgotPasswordPressed = () => {
@@ -94,7 +94,7 @@ const SignInScreen = () => {
         />
 
         <CustomInput
-          placeholder= {t('common:phone')}
+          placeholder={t('common:phone')}
           value={phone}
           setValue={setPhone}
         />
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     maxHeight: 200,
   },
-    title: {
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#051C60',
