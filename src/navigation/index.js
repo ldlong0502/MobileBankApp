@@ -24,7 +24,10 @@ import Data from '../Data/Data';
 import firestore from '@react-native-firebase/firestore';
 import HelpFunction from '../../HelpFunction';
 import Pinui from '../components/transiction/pinui';
-
+import ConfirmPin from '../Settings/ConfirmPin';
+import ConfirmPhoneAgain from '../Settings/ConfirmCodeAgain';
+import Privacy from '../Settings/Privacy';
+import ContactUs from '../Settings/ContactUs';
 const Tab = createBottomTabNavigator(
 
 );
@@ -32,25 +35,25 @@ const Tab = createBottomTabNavigator(
 function MyTabs() {
   const {t} = useTranslation();
   return <Tab.Navigator screenOptions={{ headerShown: false}} >
-        <Tab.Screen  name="Home" component={HomeScreen} options={{tabBarIcon: () => <Image source={icons.home} style={{ height: 30, width: 30,tintColor:'#06283D' }} />, title: t('common:home')}} />
+        <Tab.Screen  name="Home" component={HomeScreen} options={{tabBarIcon: () => <Image source={icons.home} style={{ height: 30, width: 30 }} />, title: t('common:home')}} />
         <Tab.Screen  name="transfer" component={Table} options={{ headerShown: true,
             headerStyle: {
-              backgroundColor: '#06283D',
+              backgroundColor: '#43CD80',
             },
-            headerTintColor: '#DFF6FF',
+            headerTintColor: '#fff',
             headerTitleStyle: {
               fontWeight: 'bold',
-            },tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 ,tintColor:'#06283D' }} />, title: t('common:transfer') }} />
+            },tabBarIcon: () => <Image source={icons.payment} style={{ height: 30, width: 30 }} />, title: t('common:transfer') }} />
         <Tab.Screen name="Transaction" component={Transaction} options={{headerStyle: {
-              backgroundColor: '#1363DF',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
               fontWeight: 'bold',
               alignSelf:'center',
               justifyContent: 'center',
-            } ,headerShown: true, tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 ,tintColor:'#06283D' }} />, title: t('common:titleTransaction')  }} />
-        <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarIcon: () => <Image source={icons.setting} style={{ height: 30, width: 30 ,tintColor:'#06283D' }} />, title: t('common:setting') }} />
+            } ,headerShown: true, tabBarIcon: () => <Image source={icons.transaction} style={{ height: 30, width: 30 }} />, title: t('common:titleTransaction')  }} />
+        <Tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarIcon: () => <Image source={icons.setting} style={{ height: 30, width: 30 }} />, title: t('common:setting') }} />
       </Tab.Navigator>;
 
 }
@@ -72,7 +75,7 @@ const Navigation = () => {
             headerShown: true,
             title: t('common:transfer'),
             headerStyle: {
-              backgroundColor: '#1363DF',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -87,7 +90,7 @@ const Navigation = () => {
             headerShown: true,
             title: 'Scan',
             headerStyle: {
-              backgroundColor: '#1363DF',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -102,7 +105,7 @@ const Navigation = () => {
             headerShown:true,
             title: 'Chuyển tiền nội bộ LTBB',
             headerStyle: {
-              backgroundColor: '#1363DF',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -117,7 +120,7 @@ const Navigation = () => {
             title: 'Pin Confirm',
             headerShown:true,
             headerStyle: {
-              backgroundColor: '#1363DF',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -132,7 +135,7 @@ const Navigation = () => {
             headerShown:true,
             title: 'Chuyển tiền nhanh 24/7 ngoài VCB',
             headerStyle: {
-              backgroundColor: '#1363DF',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -147,7 +150,7 @@ const Navigation = () => {
             headerShown:true,
             title: 'Xác nhận thông tin',
             headerStyle: {
-              backgroundColor: '#1363DF',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -162,7 +165,7 @@ const Navigation = () => {
             headerShown:true,
             title: t('common:titleTransaction'),
             headerStyle: {
-              backgroundColor: '#1363DF',
+              backgroundColor: '#43CD80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -172,7 +175,32 @@ const Navigation = () => {
         <Stack.Screen name="Payment" component={PhonePayment} />
         <Stack.Screen  name="Settings" component={SettingsScreen}/>
         <Stack.Screen  name="Bill" component={Bill}/>
+        <Stack.Screen  name="ConfirmPin" component={ConfirmPin}/>
+        <Stack.Screen  name="ConfirmPhoneAgain" component={ConfirmPhoneAgain}/>
+        <Stack.Screen options={{
+            headerShown:true,
+            title: t('common:privacy'),
+            headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}  name= "Privacy" component={Privacy}/>
+        <Stack.Screen options={{
+            headerShown:true,
+            title: t('common:contact'),
+            headerStyle: {
+              backgroundColor: '#43CD80',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }} name="ContactUs" component={ContactUs}/>
       </Stack.Navigator>
+
     </NavigationContainer>
   );
 };

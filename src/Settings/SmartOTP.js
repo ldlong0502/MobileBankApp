@@ -8,12 +8,41 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
+  Button,
 } from 'react-native';
 import React from 'react';
-import { FONTS, icons, SIZES, theme } from '../../constants';
+import { FONTS, icons, SIZES, theme, COLORS } from '../../constants';
+import Data from '../Data/Data';
+import Pin from 'react-native-pin-code-ui';
+import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 export default function SmartOTP({ close }) {
-
-
+  const [pin, setPin] = React.useState(' ');
+  const navigation = useNavigation();
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const renderForm = () => {
+  return (
+    <View style={{ flex: 1, marginTop: '5%' }}>
+      <Text style={{ ...FONTS.h2, alignSelf: 'center', marginBottom: 20 }}>
+        Nhập pin cũ
+      </Text>
+       <Pin
+        onChangeValue={value => {
+          setPin(value);
+        }}
+        onChangeStatus={status => {
+          setButtonDisabled(!buttonDisabled);
+        }}
+        styleEmptyBox={{ borderColor: 'red' }}
+        styleFullBox={{ borderColor: 'green' }}
+        styleText={{ ...FONTS.body2 }}
+        styleButton={{ backgroundColor: 'red' }}
+      />
+    </View>
+  );
+};
   const renderHeader = () => {
     return (
       <View
@@ -45,14 +74,24 @@ export default function SmartOTP({ close }) {
       </View>
     );
   };
-  const renderForm = () => {
-    return (
-      <Text>Tình trạng: </Text>
-    );
+
+  const checkContinue = () => {
+      console.log(Data.getDataUser.pin);
+      console.log(pin);
+      if ( pin === Data.getDataUser.pin) {
+        close();
+        navigation.navigate('ConfirmPin',{numPin: pin});
+      }
+      else {
+        Alert.alert('Pin sai');
+      }
+
+
   };
   const renderButton = () => {
     return (
       <TouchableOpacity
+        onPress={()=> checkContinue()}
         style={{
           flex: 1,
           backgroundColor: theme.COLORS.green,
@@ -65,29 +104,24 @@ export default function SmartOTP({ close }) {
           style={{
             alignSelf: 'center',
             fontSize: 15,
-            color: '#000',
+            color: '#FFFFFF',
             marginVertical: 15,
           }}
         >
-          Hoàn tất
+      Tiếp tục
         </Text>
       </TouchableOpacity>
     );
   };
-  return (
-    <Modal
-      animationType={'slide'}
-      transparent={false}
-      visible={true}
-      onRequestClose={close}
-    >
+  return <Modal animationType={'slide'} transparent={false} visible={true} onRequestClose={close}>
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <ScrollView>
-          {renderHeader()}
           {renderForm()}
           {renderButton()}
+          <TouchableOpacity onPress={close} style ={{alignItems: 'center', marginTop: 20}}>
+            <Text style={{color: 'blue'}}>Quay về</Text>
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
-    </Modal>
-  );
+    </Modal>;
 }
