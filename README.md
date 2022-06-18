@@ -11,7 +11,8 @@ Setting up the development environment:
  
  Settting android studio:
  https://reactnative.dev/docs/environment-setup
- In commandline :
+ 
+   In commandline :
  1.install yarn -g
  2.yarn install
  3.yarn android
